@@ -92,6 +92,13 @@ def post():
 def prayog():
     return render_template('prayog.html')
 
+@app.route('/signup.html')
+def signup():
+    return render_template('signup.html')
+
+# @app.route('/login')
+# def aftersignup():
+#     return render_template('login.html')
 
 if __name__ == "__main__":
     app.run(debug = True)
