@@ -1,3 +1,6 @@
 # Bid2Buy
 Flask and python
-changed by om
+
+Contributors :
+1. Om Gurav
+2. Prayog Ingale

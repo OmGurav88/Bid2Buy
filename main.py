@@ -36,7 +36,7 @@ class Contacts(db.Model):
 
 @app.route('/')
 def base_index():
-    return render_template('wologin.html')
+    return render_template('index.html')
 
 
 
@@ -57,6 +57,10 @@ def seller():
 @app.route('/about.html')
 def about():
     return render_template('about.html')   
+
+@app.route('/login.html')
+def login():
+    return render_template('login.html')  
 
 @app.route('/contact.html', methods = [ 'GET' , 'POST'])
 def contact(): 
