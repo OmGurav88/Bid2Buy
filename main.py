@@ -62,6 +62,10 @@ def about():
 def login():
     return render_template('login.html')  
 
+@app.route('/home.html')
+def afterlogin():
+    return render_template('home.html')
+
 @app.route('/contact.html', methods = [ 'GET' , 'POST'])
 def contact(): 
     if(request.method == 'POST'):
