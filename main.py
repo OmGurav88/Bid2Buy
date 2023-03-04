@@ -38,13 +38,21 @@ class Contacts(db.Model):
 def base_index():
     return render_template('wologin.html')
 
+
+
+@app.route('/home.html')
+# @login_required
+def home():
+    name = "Prayog"
+    return render_template('home.html', name2 = name)
+
 @app.route('/index.html')
 def index():
     return render_template('index.html')
 
-@app.route('/login.html')
-def about():
-    return render_template('login.html')   
+@app.route('/seller.html')
+def seller():
+    return render_template('seller.html')
 
 @app.route('/about.html')
 def about():
