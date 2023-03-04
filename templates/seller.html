@@ -1,7 +1,47 @@
+<head>
+    <title>Product Form</title>
+  </head>
+
 {% extends "wologin.html" %}
 {% block body %}
+
 <!-- <h1>This is seller Page</h1> -->
 <header class="masthead" style="background-image: url('static/assets/img/home-bg.jpg')"></header>
+<body>
+  <form id="contactForm" action="/seller.html" method="post" data-sb-form-api-token="API_TOKEN">
+    <div class="form-floating">
+        <input class="form-control" id="name" type="text" name="category" placeholder="Enter your name..." data-sb-validations="required" />
+        <label for="name">Product Category</label>
+        <div class="invalid-feedback" data-sb-feedback="name:required">Prodect Category is Required.</div>
+    </div>
+    <div class="form-floating">
+        <input class="form-control" id="productName" name="productName" type="text" placeholder="Enter your email..." data-sb-validations="required,email" />
+        <label for="productName">Product Name</label>
+        <div class="invalid-feedback" data-sb-feedback="message:required">Product Name is required.</div>
+        <!-- <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div> -->
+    </div>
+    <div class="form-floating">
+        <input class="form-control" id="price" name="price" type="int" placeholder="Enter your phone number..." data-sb-validations="required" />
+        <label for="phone">Base Price</label>
+        <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+    </div>
+    <div class="form-floating">
+        <textarea class="form-control" id="message" name="msg" placeholder="Enter your message here..." style="height: 12rem" data-sb-validations="required"></textarea>
+        <label for="message">Description</label>
+        <div class="invalid-feedback" data-sb-feedback="message:required">A Description is required.</div>
+    </div>
+    <div class="form-floating">
+      <textarea class="form-control" id="time" name="timeDate" placeholder="Enter your message here..." style="height: 5rem" data-sb-validations="required"></textarea>
+      <!-- <label for="message">Description</label> -->
+      <label for="datetime">Date and Time:</label>
+      <input type="datetime-local" id="datetime" name="datetime"><br>
+      <div class="invalid-feedback" data-sb-feedback="time:required">A Time is required.</div>
+  </div>
+    <br />
+    
+    <button type="submit" class="btn btn-primary " id="submitButton" >Send</button>
+</form>
+  </body>
 {% endblock %}
 
 

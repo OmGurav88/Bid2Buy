@@ -34,6 +34,17 @@ class Contacts(db.Model):
     message=db.Column(db.String(200), nullable = False)
     dt=db.Column(db.String(100))
 
+
+class Products(db.Model):
+    pid=db.Column(db.Integer,primary_key=True)
+    pcategory=db.Column(db.String(20), nullable = False)
+    pname=db.Column(db.String(50), nullable = False)
+    pprice=db.Column(db.Integer(), nullable = False)
+    pdesc=db.Column(db.String(200), nullable = False)
+    pclosing=db.Column(db.String(100), nullable = False)
+    pstarted=db.Column(db.String(100))
+
+
 @app.route('/')
 def base_index():
     return render_template('index.html')
@@ -50,8 +61,23 @@ def home():
 def index():
     return render_template('index.html')
 
-@app.route('/seller.html')
+@app.route('/seller.html',methods = ['GET' , 'POST'])
 def seller():
+    if(request.method == 'POST'):
+        # Add Entry TO Database
+        # contact_no , name, email, pNumber, message, dt 
+        # the first name is entry in the database and another name is for Html page 
+        pcategory_db  = request.form.get('category')
+        pname_db = request.form.get('productName')
+        pprice_db = request.form.get('price')
+        pdesc_db = request.form.get('msg')
+        pclosing_db = request.form.get('datetime')
+
+        # Add to the Database
+        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
+        db.session.add(entry)
+        db.session.commit()
+
     return render_template('seller.html')
 
 @app.route('/about.html')
