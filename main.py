@@ -80,6 +80,12 @@ def seller():
 
     return render_template('seller.html')
 
+@app.route('/buyer')
+def buyer():
+    buyer = "gurav"
+    query=db.engine.execute(f"SELECT * FROM `products`")
+    return render_template('buyer.html',products = query,name2=buyer)
+
 @app.route('/about.html')
 def about():
     return render_template('about.html')   
@@ -127,4 +133,4 @@ def signup():
 #     return render_template('login.html')
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = True,port = 5005)
