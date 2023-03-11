@@ -158,5 +158,10 @@ def signup():
 # def aftersignup():
 #     return render_template('login.html')
 
+@app.route('/wologin.html')
+def wologin():
+    return render_template('wologin.html')
+
+
 if __name__ == "__main__":
     app.run(debug = True,port = 5005)
