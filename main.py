@@ -44,6 +44,13 @@ class Products(db.Model):
     pclosing=db.Column(db.String(100), nullable = False)
     pstarted=db.Column(db.String(100))
 
+class Users(db.Model):
+    uid=db.Column(db.Integer,primary_key=True)
+    uname=db.Column(db.String(20), nullable = False)
+    unumber=db.Column(db.Integer,nullable=False)
+    umail=db.Column(db.String(20), nullable = False)
+    upass=db.Column(db.String(20),nullable = False)
+    ucnfpass=db.Column(db.String(20), nullable = False)
 
 @app.route('/')
 def base_index():
@@ -124,8 +131,21 @@ def post():
 def prayog():
     return render_template('prayog.html')
 
-@app.route('/signup.html')
+@app.route('/signup.html', methods = ['GET','POST'])
 def signup():
+    if(request.method == 'POST'):
+        
+        uname_db = request.form.get('user_name')
+        unumber_db = request.form.get('user_phone')
+        umail_db = request.form.get('user_email')
+        upass_db = request.form.get('password')
+        ucnfpass_db = request.form.get('cnfPassword')
+
+        entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db )
+        db.session.add(entry)
+        db.session.commit()
+
+
     return render_template('signup.html')
 
 # @app.route('/login')
