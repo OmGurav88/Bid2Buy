@@ -2,8 +2,8 @@
     "params":
     {
         "local_server":"True",
-        "local_uri":"mysql://root:@localhost/eamp",
-        "prod_uri":"mysql://root:@localhost/eamp"
+        "local_uri":"mysql://root:@localhost/bid2buy",
+        "prod_uri":"mysql://root:@localhost/bid2buy"
 
     }
 }

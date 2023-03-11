@@ -8,7 +8,6 @@ from datetime import datetime
 import json 
 # from flask_mail import Mail
 
-
 # USE FOR USING DATABASE
 db = SQLAlchemy()
 local_server = True
@@ -24,7 +23,13 @@ else:
     app.config["SQLALCHEMY_DATABASE_URI"] = parameters['prod_uri']
 # START THE DATABASE
 db.init_app(app)
+
 # DEFINING THE DATABASE OF `contacts`
+
+class Loginusers(db.Model):
+    login_id=db.Column(db.Integer,primary_key=True)
+    username=db.Column(db.String(50), nullable = False)
+    password=db.Column(db.String(50), nullable = False)
 
 class Contacts(db.Model):
     contact_id=db.Column(db.Integer,primary_key=True)
@@ -144,6 +149,7 @@ def signup():
         entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db )
         db.session.add(entry)
         db.session.commit()
+        return render_template('login.html')
 
 
     return render_template('signup.html')

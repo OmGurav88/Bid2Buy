@@ -11122,10 +11122,13 @@ header.masthead {
   margin-bottom: 3rem;
   padding-top: calc(8rem + 57px);
   padding-bottom: 8rem;
-  background: no-repeat center center;
+  /* background: no-repeat center center; */
+  /* transform: scale(relative); */
   background-color: #6c757d;
   background-size: cover;
   background-attachment: scroll;
+  max-width: 100%;
+  height: auto;
 }
 header.masthead:before {
   content: "";
