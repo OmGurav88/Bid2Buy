@@ -70,13 +70,11 @@ class Users(db.Model):
 def base_index():
     return render_template('index.html')
 
-
-
+#This is after login route i.e user view
 @app.route('/home.html')
-
 def home():
     user=session.get('username')
-    return render_template('home.html', name2 = user)
+    return render_template('home.html', name2 = user , )
 
 @app.route('/index.html')
 def index():
@@ -135,10 +133,6 @@ def login():
 
     return render_template('login.html')  
 
-# @app.route('/home')
-# def afterlogin():
-#     return render_template('home.html')
-
 @app.route('/contact.html', methods = [ 'GET' , 'POST'])
 def contact(): 
     if(request.method == 'POST'):
@@ -161,10 +155,6 @@ def contact():
 def post():
     return render_template('post.html')
 
-@app.route('/prayog')
-def prayog():
-    return render_template('prayog.html')
-
 @app.route('/signup.html', methods = ['GET','POST'])
 def signup():
     if(request.method == 'POST'):
@@ -176,16 +166,22 @@ def signup():
         ucnfpass_db = request.form.get('cnfPassword')
 
         entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db )
-        db.session.add(entry)
-        db.session.commit()
-        return render_template('login.html')
+
+        # Check if the email already exists in the database
+        # Query the database for a user with a specific email address
+        user = Users.query.filter_by(umail=umail_db).first()
+        print(user)
+        if user:
+            # flash('Email already exists in the database')
+            print("user exists")
+            return render_template('signup.html')
+        else :
+            db.session.add(entry)
+            db.session.commit()
+            return render_template('login.html')
 
 
     return render_template('signup.html')
-
-# @app.route('/login')
-# def aftersignup():
-#     return render_template('login.html')
 
 @app.route('/wologin.html')
 def wologin():
