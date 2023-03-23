@@ -120,8 +120,8 @@ def login():
         user = Users.query.filter_by(uname=username).first()
         # To add user in database
         userDB=Loginusers(username=username,password=password)
-        db.session.add(userDB)
-        db.session.commit()
+        # db.session.add(userDB)
+        # db.session.commit()
 
         if user:
             session['username'] = user.uname
