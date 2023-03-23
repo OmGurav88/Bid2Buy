@@ -6,6 +6,7 @@ from flask_login import login_user,logout_user,login_manager,LoginManager
 from flask_login import login_required,current_user
 from datetime import datetime
 import json 
+
 # from flask_mail import Mail
 
 # USE FOR USING DATABASE
@@ -16,6 +17,7 @@ with open('config.json', 'r') as con:
 
 # WSGI Application
 app = Flask(__name__)
+app.secret_key = 'my_secret_key'
 
 if(local_server):
     app.config["SQLALCHEMY_DATABASE_URI"] = parameters['local_uri']
@@ -24,12 +26,19 @@ else:
 # START THE DATABASE
 db.init_app(app)
 
-# DEFINING THE DATABASE OF `contacts`
+# DEFINING THE DATABASE MODELS
 
 class Loginusers(db.Model):
     login_id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(50), nullable = False)
     password=db.Column(db.String(50), nullable = False)
+    def set_password(self, password):
+        self.password = password
+
+    def check_password(self, password):
+        if(self.password==password):
+            return 1
+        
 
 class Contacts(db.Model):
     contact_id=db.Column(db.Integer,primary_key=True)
@@ -64,10 +73,10 @@ def base_index():
 
 
 @app.route('/home.html')
-# @login_required
+
 def home():
-    name = "Prayog"
-    return render_template('home.html', name2 = name)
+    user=session.get('username')
+    return render_template('home.html', name2 = user)
 
 @app.route('/index.html')
 def index():
@@ -94,21 +103,41 @@ def seller():
 
 @app.route('/buyer')
 def buyer():
-    buyer = "gurav"
+    # buyer = "gurav"
+    current_user=session.get('username')
     query=db.engine.execute(f"SELECT * FROM `products`")
-    return render_template('buyer.html',products = query,name2=buyer)
+    return render_template('buyer.html',products = query,name2=current_user)
 
 @app.route('/about.html')
 def about():
     return render_template('about.html')   
 
-@app.route('/login.html')
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if(request.method == 'POST'):
+        username  = request.form.get('username')
+        password = request.form.get('password')
+        # print(username,password)
+        user = Users.query.filter_by(uname=username).first()
+        # To add user in database
+        userDB=Loginusers(username=username,password=password)
+        db.session.add(userDB)
+        db.session.commit()
+
+        if user:
+            session['username'] = user.uname
+            return redirect(url_for('home'))
+        
+        
+        return render_template('login.html')
+
+
     return render_template('login.html')  
 
-@app.route('/home.html')
-def afterlogin():
-    return render_template('home.html')
+# @app.route('/home')
+# def afterlogin():
+#     return render_template('home.html')
 
 @app.route('/contact.html', methods = [ 'GET' , 'POST'])
 def contact(): 
@@ -161,7 +190,6 @@ def signup():
 @app.route('/wologin.html')
 def wologin():
     return render_template('wologin.html')
-
 
 if __name__ == "__main__":
     app.run(debug = True,port = 5005)
