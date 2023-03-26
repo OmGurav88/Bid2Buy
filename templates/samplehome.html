@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Bid2Buy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .card {
+  height: 300px;
+  width: 300px;
+}
+
+    .navbar {
+      background-color: #f44336;
+      color: white;
+    }
+    .navbar a {
+      color: white;
+    }
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .vertical-nav {
+      height: 100%;
+      width: 15%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #4CAF50;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+    .vertical-nav a {
+      padding: 10px;
+      color: white;
+      display: block;
+    }
+    .vertical-nav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .product-card {
+      width: 20%;
+      margin: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+    .product-card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">Bid2Buy</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" href="login">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 col-md-3 col-sm-4 col-12 vertical-nav">
+        <a href="#"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a>
+        <a href="seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a>
+        <a href="#"><i class="fa fa-tasks"></i> My Products</a>
+        <a href="login"><i class=""></i> Logout</a>
+          </div>
+        </div>
+    </div>
+    <div id="product-cards" > 
+        <div class="row">
+            {% for product in products %}
+              <div class="col-md-3">
+                <div class="card">
+                  <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">Product Number: {{ product.number }}</p>
+                    <p class="card-text">Bid Price: {{ product.bid_price }}</p>
+                    <p class="card-text">Start Time: {{ product.start_time }}</p>
+                    <p class="card-text">Time Left: {{ product.time_left }}</p>
+                    <a href="#" class="btn btn-primary">Buy This Item</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+    </div>
+          
+        

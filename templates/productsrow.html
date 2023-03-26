@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+
+{% block content %}
+<div class="row">
+  {% for product in products %}
+    <div class="col-md-3">
+      <div class="card">
+        <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">Product Number: {{ product.number }}</p>
+          <p class="card-text">Bid Price: {{ product.bid_price }}</p>
+          <p class="card-text">Start Time: {{ product.start_time }}</p>
+          <p class="card-text">Time Left: {{ product.time_left }}</p>
+          <a href="#" class="btn btn-primary">Buy This Item</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

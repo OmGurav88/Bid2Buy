@@ -74,7 +74,7 @@ def base_index():
 @app.route('/home.html')
 def home():
     user=session.get('username')
-    return render_template('home.html', name2 = user , )
+    return render_template('productsrow.html', name2 = user , )
 
 @app.route('/index.html')
 def index():
@@ -90,21 +90,22 @@ def seller():
         pname_db = request.form.get('productName')
         pprice_db = request.form.get('price')
         pdesc_db = request.form.get('msg')
-        pclosing_db = request.form.get('datetime')
+        pclosing_db = request.form.get('date')
 
         # Add to the Database
         entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
         db.session.add(entry)
         db.session.commit()
 
-    return render_template('seller.html')
+    return render_template('sampleseller.html')
 
 @app.route('/buyer')
 def buyer():
     # buyer = "gurav"
     current_user=session.get('username')
     query=db.engine.execute(f"SELECT * FROM `products`")
-    return render_template('buyer.html',products = query,name2=current_user)
+    return render_template('samplehome.html',products = query,name2=current_user)
+
 
 @app.route('/about.html')
 def about():
@@ -125,7 +126,7 @@ def login():
 
         if user:
             session['username'] = user.uname
-            return redirect(url_for('home'))
+            return redirect(url_for('buyer'))
         
         
         return render_template('login.html')
