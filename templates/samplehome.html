@@ -9,9 +9,15 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
-    .card {
+    .card-body {
   height: 300px;
   width: 300px;
+  /* border: 1px solid black; Adds a 1px solid black border */
+  background-color: lightblue;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 30px;
+      
 }
 
     .navbar {
@@ -43,7 +49,7 @@
     }
     .vertical-nav a:hover {
       background-color: #ddd;
-      color: black;
+      color: rgb(223, 202, 202);
     }
     .product-card {
       width: 20%;
@@ -52,69 +58,139 @@
       transition: 0.3s;
     }
     .product-card:hover {
-      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      box-shadow: 0 8px 16px 0 rgba(189, 11, 180, 0.2);
     }
     .product-card img {
       width: 100%;
       height: 200px;
     }
+    nav {
+  background-color: #333333;
+  height: 50px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+li a:hover {
+  background-color: #efe6e6;
+}
+
+li a i {
+  margin-right: 5px;
+}
+.nav {
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #231e1e;
+  z-index: 999;
+}
+
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg">
-    <a class="navbar-brand" href="#">Bid2Buy</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ml-auto">
-        
 
-        <nav class="navbar navbar-light bg-light">
-          <div class="container-fluid">
-            
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </nav>
+        <nav class="nav">
+            <ul>
+              <li><a href="#"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+              <li><a href="seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+              <li><a href="#"><i class="fa fa-tasks"></i> My Products</a></li>
+              <li><a href="login">  <i class=""></i> Logout</a></li>
+            </ul>
+          </nav>
+          
 
         
-        <li class="nav-item">
-          <a class="nav-link" href="login">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+     
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-2 col-md-3 col-sm-4 col-12 vertical-nav">
-        <a href="#"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a>
-        <a href="seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a>
-        <a href="#"><i class="fa fa-tasks"></i> My Products</a>
-        <a href="login"><i class=""></i> Logout</a>
-          </div>
-        </div>
-    </div>
-    <div id="product-cards" > 
+
+    <br>
+    <br>
+    <br>
+    <div id="product-cards" class="ml-5"> 
         <div class="row">
-            {% for product in products %}
-              <div class="col-md-4">
-                <div class="float-card">
-                  <!-- <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}"> -->
-                  <div class="card-body">
-                    <h5 class="card-title">{{ product.pname }}</h5>
-                    <p class="card-text">Product Number: {{ product.pid }}</p>
-                    <p class="card-text">Bid Price: {{ product.pprice }}</p>
-                    <p class="card-text">Start Time: {{ product.pstarted }}</p>
-                    <p class="card-text">Time Left: {{ product.time_left }}</p>
+          {% for product in products %}
+            <div class="col-md-3 mb-4">
+              <div class="float-card">
+                <div class="card-body d-flex flex-column">
+                  <img src="{{ product.image }}" alt="{{ product.name }}" class="card-img-top mb-2">
+                  <h5 class="card-title">{{ product.pname }}</h5>
+                  <p class="card-text">Product Number: {{ product.pid }}</p>
+                  <p class="card-text">Bid Price: {{ product.pprice }}</p>
+                  <p class="card-text">Start Time: {{ product.pstarted }}</p>
+                  <div class="mb-auto">
+                    <p class="card-text">Time Left: <span class="startBidTimer" data-time="{{ product.ptimer }}"></span></p>
+                    <!-- <p>"{{ product.ptimer }}"</p> -->
                     <a href="#" class="btn btn-primary">Buy This Item</a>
                   </div>
                 </div>
               </div>
-            {% endfor %}
-    </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <script>
+        // Get all the timer elements on the page
+        const timers = document.querySelectorAll('.startBidTimer');
+      
+        // Loop through each timer and start the countdown
+        timers.forEach(timer => {
+          let timeRemaining = getMilliseconds(timer.getAttribute('data-time'));
+          let timeInterval;
+      
+          function getMilliseconds(timeString) {
+            let timeComponents = timeString.split(':');
+            let hours = parseInt(timeComponents[0], 10);
+            let minutes = parseInt(timeComponents[1], 10);
+            let seconds = parseInt(timeComponents[2], 10);
+            return (hours * 3600 + minutes * 60 + seconds) * 1000;
+          }
+      
+          function updateTimer() {
+            const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((timeRemaining / 1000 / 60) % 60);
+            const seconds = Math.floor((timeRemaining / 1000) % 60);
+            const milliseconds = timeRemaining % 1000;
+      
+            timer.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+      
+            if (timeRemaining < 0) {
+              clearInterval(timeInterval);
+              timer.innerHTML = 'Expired';
+              
+            }
+            timeRemaining -= 1000;
+          }
+      
+          updateTimer();
+          timeInterval = setInterval(updateTimer, 1000);
+        });
+      </script>
+      
+      
+      
+      
+      
+      
           
         

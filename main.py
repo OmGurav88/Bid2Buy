@@ -57,6 +57,18 @@ class Products(db.Model):
     pdesc=db.Column(db.String(200), nullable = False)
     pclosing=db.Column(db.String(100), nullable = False)
     pstarted=db.Column(db.String(100))
+    ptimer = db.Column(db.Time)
+
+    # def __init__(self, p_category, p_name, p_price, p_desc, p_closing, p_started, ptimer):
+    #     self.p_category = p_category
+    #     self.p_name = p_name
+    #     self.p_price = p_price
+    #     self.p_desc = p_desc
+    #     self.p_closing = p_closing
+    #     self.p_started = p_started
+    #     self.ptimer = datetime.strptime(ptimer, '%H:%M:%S').time()
+
+
 
 class Users(db.Model):
     uid=db.Column(db.Integer,primary_key=True)
@@ -91,9 +103,22 @@ def seller():
         pprice_db = request.form.get('price')
         pdesc_db = request.form.get('msg')
         pclosing_db = request.form.get('date')
+       
+       # Get bidding duration
+        hours = request.form.get('hours')
+        minutes = request.form.get('minutes')
+        seconds = request.form.get('seconds')
+        ptimer_db = f"{hours}:{minutes}:{seconds}"
+        pstarted = datetime.now()
+        print("********************* timer values checking ******************")
+        print(ptimer_db)
+
 
         # Add to the Database
-        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
+        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db)
+        # entry = Products(pcategory_db ,pname_db , pprice_db ,pdesc_db , pclosing_db , pstarted, ptimer_db)
+
+
         db.session.add(entry)
         db.session.commit()
 
