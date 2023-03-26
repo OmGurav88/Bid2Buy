@@ -4,6 +4,7 @@
 
 
     <head>
+		
         <style>
             * {
 	box-sizing: border-box;
@@ -149,11 +150,14 @@ p {
                 <span class="bg animated fadeInDown">{{product.pcategory}} </span>
                 <h1>{{product.pname}}<br/> Exclusive on!!</h1>
                 <p> {{product.pdesc}}</p>
+				<h1> {{product.pclosing}}</h1>
+		
                 
                 <div class="button">
                     <a>${{product.pprice}}</a>
                     <a class="cart-btn" href="#"><i class="cart-icon ion-bag"></i>ADD TO CART</a>
                 </div>
+				
                 
                 
             </div>
@@ -165,7 +169,10 @@ p {
         <!-- <p class="footer">Based on the Silk UI Kit - DesignModo Market</p> -->
         
     </div>
+	
+	
     {% endfor %}
+
     
 </html>
 {% endblock %}

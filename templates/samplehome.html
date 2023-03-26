@@ -69,6 +69,17 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         
+
+        <nav class="navbar navbar-light bg-light">
+          <div class="container-fluid">
+            
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+
         
         <li class="nav-item">
           <a class="nav-link" href="login">Logout</a>
@@ -90,14 +101,14 @@
     <div id="product-cards" > 
         <div class="row">
             {% for product in products %}
-              <div class="col-md-3">
-                <div class="card">
-                  <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+              <div class="col-md-4">
+                <div class="float-card">
+                  <!-- <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}"> -->
                   <div class="card-body">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">Product Number: {{ product.number }}</p>
-                    <p class="card-text">Bid Price: {{ product.bid_price }}</p>
-                    <p class="card-text">Start Time: {{ product.start_time }}</p>
+                    <h5 class="card-title">{{ product.pname }}</h5>
+                    <p class="card-text">Product Number: {{ product.pid }}</p>
+                    <p class="card-text">Bid Price: {{ product.pprice }}</p>
+                    <p class="card-text">Start Time: {{ product.pstarted }}</p>
                     <p class="card-text">Time Left: {{ product.time_left }}</p>
                     <a href="#" class="btn btn-primary">Buy This Item</a>
                   </div>
