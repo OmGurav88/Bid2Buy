@@ -137,10 +137,12 @@ li a i {
                   <p class="card-text">Product Number: {{ product.pid }}</p>
                   <p class="card-text">Bid Price: {{ product.pprice }}</p>
                   <p class="card-text">Start Time: {{ product.pstarted }}</p>
+                  <!-- <h1>{{id}}</h1>
+                  <h1>{{name2}}</h1> -->
                   <div class="mb-auto">
                     <p class="card-text">Time Left: <span class="startBidTimer" data-time="{{ product.ptimer }}"></span></p>
-                    <!-- <p>"{{ product.ptimer }}"</p> -->
-                    <a href="#" class="btn btn-primary">Buy This Item</a>
+                    <p>"{{ product.ptimer }}"</p>
+                    <a href="/product/{{product.pid}}" class="btn btn-primary">View This Product</a>
                   </div>
                 </div>
               </div>

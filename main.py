@@ -116,6 +116,7 @@ def seller():
 
         # Add to the Database
         entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db)
+        # entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
         # entry = Products(pcategory_db ,pname_db , pprice_db ,pdesc_db , pclosing_db , pstarted, ptimer_db)
 
 
@@ -128,8 +129,12 @@ def seller():
 def buyer():
     # buyer = "gurav"
     current_user=session.get('username')
-    query=db.engine.execute(f"SELECT * FROM `products`")
-    return render_template('samplehome.html',products = query,name2=current_user)
+    #current_userId=session.get('id')
+    query=db.engine.execute(f"SELECT * FROM `products`;")
+    user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
+    user_id = user[0]
+
+    return render_template('samplehome.html',products = query,name2=current_user,id=user_id)
 
 
 @app.route('/about.html')
@@ -212,6 +217,16 @@ def signup():
 @app.route('/wologin.html')
 def wologin():
     return render_template('wologin.html')
+
+
+@app.route('/product/<int:pid>')
+def show_product(pid):
+    print("Yes")
+    # product = Products.query.get('pid')
+    product = db.session.execute(f"SELECT * FROM `products` WHERE pid=:pid;", {'pid': pid}).fetchone()
+    if product is None:
+        return 'Product not found', 404
+    return render_template('product.html', product=product)
 
 if __name__ == "__main__":
     app.run(debug = True,port = 5005)
