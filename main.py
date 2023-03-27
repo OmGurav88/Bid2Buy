@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,session,redirect,url_for,flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from flask_login import UserMixin,login_manager
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import login_user,logout_user,login_manager,LoginManager
 from flask_login import login_required,current_user
@@ -77,6 +77,12 @@ class Users(db.Model):
     umail=db.Column(db.String(20), nullable = False)
     upass=db.Column(db.String(20),nullable = False)
     ucnfpass=db.Column(db.String(20), nullable = False)
+
+class Bidders(db.Model):
+    bid=db.Column(db.Integer,primary_key=True)
+    uid=pid=db.Column(db.Integer,nullable=False)
+    pid=db.Column(db.Integer,nullable=False)
+    bprice=db.Column(db.Integer,nullable=False)
 
 @app.route('/')
 def base_index():
@@ -219,14 +225,34 @@ def wologin():
     return render_template('wologin.html')
 
 
-@app.route('/product/<int:pid>')
+@app.route('/product/<int:pid>', methods = ['GET','POST'])
+# @login_required
 def show_product(pid):
     print("Yes")
     # product = Products.query.get('pid')
     product = db.session.execute(f"SELECT * FROM `products` WHERE pid=:pid;", {'pid': pid}).fetchone()
     if product is None:
         return 'Product not found', 404
-    return render_template('product.html', product=product)
+    
+    current_user=session.get('username')
+    #current_userId=session.get('id')
+    query=db.engine.execute(f"SELECT * FROM `products`;")
+    user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
+    user_id = user[0]
+    if(request.method == 'POST'):
+        bprice_db = request.form.get('bid')
+        # unumber_db = request.form.get('user_phone')
+        print(bprice_db)
+        pid_db=pid
+        entry = Bidders( uid = user_id , bprice=bprice_db, pid=pid_db)
+        db.session.add(entry)
+        db.session.commit()
+
+
+    return render_template('product.html', product=product,id = user_id)
+
+
+
 
 if __name__ == "__main__":
     app.run(debug = True,port = 5005)

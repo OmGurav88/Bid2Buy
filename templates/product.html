@@ -72,9 +72,20 @@
       <p><strong>Price:</strong> <span id="product-price">${{ product.pprice }}</span></p>
       <p><strong>Description:</strong> {{ product.pdesc }}</p>
       <p><strong>Features:</strong></p>
+      <form>
+      <div class="form-group">
+        <label for="basePrice" name="bid">Bid Price:</label>
+        <input type="number" class="form-control" id="basePrice" name="bid" required>
       
-      <div id="add-to-cart">Submit Bid</div>
+      <h1>{{id}}</h1>
+      <hr>
+      <div class="text-center">
+        <button type="submit" class="btn colorful-btn">Submit</button>
+      </div>  
     </div>
+  </form>
+    </div>
+  
   </div>
 </body>
 </html>
