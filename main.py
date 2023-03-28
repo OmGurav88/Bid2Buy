@@ -39,16 +39,16 @@ class Loginusers(db.Model):
         if(self.password==password):
             return 1
         
-class LoginAdmin(db.Model):
-    login_id=db.Column(db.Integer,primary_key=True)
-    username=db.Column(db.String(50), nullable = False)
-    password=db.Column(db.String(50), nullable = False)
-    def set_password(self, password):
-        self.password = password
+# class LoginAdmin(db.Model):
+#     login_id=db.Column(db.Integer,primary_key=True)
+#     username=db.Column(db.String(50), nullable = False)
+#     password=db.Column(db.String(50), nullable = False)
+#     def set_password(self, password):
+#         self.password = password
 
-    def check_password(self, password):
-        if(self.password==password):
-            return 1
+#     def check_password(self, password):
+#         if(self.password==password):
+#             return 1
         
 class Contacts(db.Model):
     contact_id=db.Column(db.Integer,primary_key=True)
@@ -89,13 +89,13 @@ class Users(db.Model):
     ucnfpass=db.Column(db.String(20), nullable = False)
 
 
-class Admins(db.Model):
-    admin_id=db.Column(db.Integer,primary_key=True)
-    admin_name=db.Column(db.String(20), nullable = False)
-    admin_no=db.Column(db.Integer,nullable=False)
-    admin_email=db.Column(db.String(20), nullable = False)
-    admin_pass=db.Column(db.String(20),nullable = False)
-    admin_cnfm_pass=db.Column(db.String(20), nullable = False)
+# class Admins(db.Model):
+#     admin_id=db.Column(db.Integer,primary_key=True)
+#     admin_name=db.Column(db.String(20), nullable = False)
+#     admin_no=db.Column(db.Integer,nullable=False)
+#     admin_email=db.Column(db.String(20), nullable = False)
+#     admin_pass=db.Column(db.String(20),nullable = False)
+#     admin_cnfm_pass=db.Column(db.String(20), nullable = False)
 
 class Bidders(db.Model):
     bid=db.Column(db.Integer,primary_key=True)
@@ -256,14 +256,16 @@ def adminlogin():
         username  = request.form.get('username')
         password = request.form.get('password')
         # print(username,password)
-        user = Admins.query.filter_by(admin_name=username).first()
-        # To add user in database
-        # userDB=LoginAdmin(username=username,password=password)
-        # db.session.add(userDB)
-        # db.session.commit()
+        admin1="omgurav"
+        admin1_pass="om123"
+        admin2="prayog"
+        admin2_pass="prayog123"
+        if (username==admin1 and password==admin1_pass) :
+            flag=1
+        if (username==admin2 and password==admin2_pass ) :
+            flag=1    
 
-        if user:
-            session['username'] = user.admin_name
+        if flag:
             return redirect(url_for('adminhome'))
         
         
@@ -271,35 +273,6 @@ def adminlogin():
 
 
     return render_template('adminlogin.html')  
-
-# @app.route('/adminsignup', methods = ['GET','POST'])
-# def admin_signup():
-#     if(request.method == 'POST'):
-        
-#         uname_db = request.form.get('user_name')
-#         unumber_db = request.form.get('user_phone')
-#         umail_db = request.form.get('user_email')
-#         upass_db = request.form.get('password')
-#         ucnfpass_db = request.form.get('cnfPassword')
-
-#         entry = Admins( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db )
-
-#         # Check if the email already exists in the database
-#         # Query the database for a user with a specific email address
-#         user = Admins.query.filter_by(umail=umail_db).first()
-#         print(user)
-#         if user:
-#             # flash('Email already exists in the database')
-#             print("user exists")
-#             return render_template('adminsignup.html')
-#         else :
-#             db.session.add(entry)
-#             db.session.commit()
-#             return render_template('adminlogin.html')
-
-
-#     return render_template('adminsignup.html')
-
 
 
 @app.route('/product/<int:pid>', methods = ['GET','POST'])
@@ -336,7 +309,6 @@ def show_product(pid):
     return render_template('product.html', product=product,id = user_id)
 
 
-<<<<<<< Updated upstream
 @app.route('/myproduct/<int:uid>')
 # @login_required
 def my_products(uid):
@@ -350,7 +322,5 @@ def my_products(uid):
     
 
 
-=======
->>>>>>> Stashed changes
 if __name__ == "__main__":
     app.run(debug = True,port = 5005)
