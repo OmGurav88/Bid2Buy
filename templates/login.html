@@ -1,5 +1,5 @@
-{% extends "wologin.html" %}
-{% block body %}
+<!-- {% extends "wologin.html" %}
+{% block body %} -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -245,12 +245,35 @@
 <body>
 
     <body class="main-bg">
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html">Bid2Buy</a>
+                <button class="navbar-toggler" type="submit" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav ms-auto py-4 py-lg-0">    
+                                        
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About us</a>
+                            </li>
+                            <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Sample Post</a></li> -->
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+    
+            </div>
+        </nav>
         <div class="login-container text-c animated flipInX">
             <div>
                 <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
             </div>
            
-            <h3 class="text-whitesmoke">Sign In</h3>
+            <h3 class="text-whitesmoke">User Sign In</h3>
             <div class="container-content">
                 <form class="margin-t" action="/login" method='POST' >
                     <div class="form-group">
@@ -281,4 +304,4 @@
 </body>
 
 </html>
-{% endblock %}
+<!-- {% endblock %} -->

@@ -1,5 +1,5 @@
-{% extends "wologin.html" %}
-{% block body %}
+<!-- {% extends "wologin.html" %}
+{% block body %} -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bid2Buy</title>
     <style>
         html {
             height: 100%;
@@ -54,8 +54,9 @@
 
         /* Buttons */
         .button {
-            border-radius: 3px;
-            color: #e6e6e6;
+            /* border-radius: 3px; */
+            color: #ede8e8;
+            background-color: rgba(255, 235, 59, 0.24);
         }
 
         .form-button {
@@ -238,78 +239,66 @@
             letter-spacing: -10px;
             margin-bottom: 0;
         }
-
-        .username {
-            /* font-weight: bold; */
-            text-align: left;
-            float: left;
-        }
-        .alert {
-        background-color: #f8d7da;
-        color: #721c24;
-        padding: 1rem;
-        border-radius: 0.25rem;
-        margin-bottom: 1rem;
-}
     </style>
-
 </head>
 
 <body>
 
     <body class="main-bg">
-        <div class="login-container text-c animated flipInX">
-            <!-- {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="alert">
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html">Bid2Buy</a>
+                <button class="navbar-toggler" type="submit" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                            <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4"
+                                    href="login">Login/Register</a></li> -->
+    
+                                            
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About us</a>
+                            </li>
+                            <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Sample Post</a></li> -->
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact us</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                {% endif %}
-                {% endwith %} -->
-
-            <h3 class="text-whitesmoke">User Sign Up</h3>
-            <p class="text-whitesmoke">Please fill in this form to create an account.</p>
+    
+            </div>
+        </nav>
+        <div class="login-container text-c animated flipInX">
+            <div>
+                <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
+            </div>
+           
+            <h3 class="text-whitesmoke">Admin Log In</h3>
             <div class="container-content">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %} 
-                    <div class="notificatio isdanger">{{ messages[0] }}</div>
-                {% endif %} 
-                {% endwith %} 
-                
-                <form class="margin-t" action="/signup.html" method="post">
+                <form class="margin-t" action="/AdminLogin" method='POST' >
                     <div class="form-group">
                         <label class="text-whitesmoke" for="username" float:left><b>Enter Username</b></label>
-                        <input type="text" name="user_name" class="form-control" placeholder="Username" required="">
+                        <input type="text" name='username' class="form-control" placeholder="Username" required="">
                     </div>
+                
                     <div class="form-group">
-                        <label class="text-whitesmoke" for="username" float:left><b>Enter Mobile number</b></label>
-                        <input type="text" name="user_phone" class="form-control" placeholder="mobile number"
-                            required="">
+                        <label class="text-whitesmoke" for="username" float:left><b>Enter Password</b></label>
+                        <input type="password" name='password' class="form-control" placeholder="*****" required="">
                     </div>
-                    <div class="form-group">
-                        <label class="text-whitesmoke" for="email"><b>Enter Email</b></label>
-                        <input type="text" name="user_email" class="form-control" placeholder="Enter Email" required="">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-whitesmoke" for="psw"><b>Password</b></label>
-                        <input type="text" name="password" class="form-control" placeholder="Password" required="">
-                    </div>
-                    <div class="form-group">
-                        <label class="text-whitesmoke" for="psw-repeat"><b>Repeat Password</b></label>
-                        <input type="text" name="cnfPassword" class="form-control" placeholder="New Password"
-                            required="">
-                    </div>
-
-                    <p class="text-whitesmoke" color: 255>By creating an account you agree to our <a href="#">Terms &
-                            Privacy</a>.</p>
-                    <!-- <a href="login.html"></a><button type="submit" class="registerbtn">Register</button></a> -->
-                    <button type="submit" class="btn btn-primary " id="submitButton">Register</button>
-                    <br>
-                    <!-- <a class="text-darkyellow" href="login.html" ><small>Login</small></a> -->
-
-
+                    <!-- <a href="home.html"><button type="submit" role="button" class="form-button button-l margin-b">Sign
+                            In</button></a> -->
+                            <br>
+                            
+                    <button type="submit" class="button"  >Sign in</button>
+                    <!-- <a href="home.html" class="button" role="button">Sign in</a>
+                        <br> -->
+                        <br>
+                    <!-- <a class="text-darkyellow" href="#"><small>Forgot your password?</small></a>
+                    <p class="text-whitesmoke text-center"><small>Do not have an account?</small></p> -->
+                    <!-- <a class="text-darkyellow" href="adminsignup" ><small>Sign Up</small></a> -->
                 </form>
                 <p class="margin-t text-whitesmoke"><small> Bid2Buy &copy; 2023</small> </p>
             </div>
