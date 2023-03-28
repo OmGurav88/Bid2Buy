@@ -113,8 +113,8 @@ li a i {
             <ul>
               <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
               <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
-              <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
-              <li><a href="login">  <i class=""></i> Logout</a></li>
+              <li><a href="#"><i class="fa fa-tasks"></i> My Products</a></li>
+              <li><a href="/login">  <i class=""></i> Logout</a></li>
             </ul>
           </nav>
           
@@ -128,22 +128,16 @@ li a i {
     <br>
     <div id="product-cards" class="ml-5"> 
         <div class="row">
-          {% for product in products %}
+          {% for product in bidders %}
             <div class="col-md-3 mb-4">
               <div class="float-card">
                 <div class="card-body d-flex flex-column">
-                  <img src="{{ product.image }}" alt="{{ product.name }}" class="card-img-top mb-2">
-                  <h5 class="card-title">{{ product.pname }}</h5>
-                  <p class="card-text">Product Number: {{ product.pid }}</p>
-                  <p class="card-text">Bid Price: {{ product.pprice }}</p>
-                  <p class="card-text">Start Time: {{ product.pstarted }}</p>
-                  <!-- <h1>{{id}}</h1>
-                  <h1>{{name2}}</h1> -->
-                  <div class="mb-auto">
-                    <h5 class="card-text">Time Left: <span class="startBidTimer" data-time="{{ product.ptimer }}"></span></h5>
-                    <p>"{{ product.ptimer }}"</p>
-                    <a href="/product/{{product.pid}}" class="btn btn-primary">View This Product</a>
-                  </div>
+                  <h5 class="card-title">{{product.pid}}</h5>
+                  <h5 class="card-title">{{product.bprice}}</h5>
+                  
+                  
+                    
+                 
                 </div>
               </div>
             </div>
@@ -151,48 +145,3 @@ li a i {
         </div>
       </div>
       
-      <script>
-        // Get all the timer elements on the page
-        const timers = document.querySelectorAll('.startBidTimer');
-      
-        // Loop through each timer and start the countdown
-        timers.forEach(timer => {
-          let timeRemaining = getMilliseconds(timer.getAttribute('data-time'));
-          let timeInterval;
-      
-          function getMilliseconds(timeString) {
-            let timeComponents = timeString.split(':');
-            let hours = parseInt(timeComponents[0], 10);
-            let minutes = parseInt(timeComponents[1], 10);
-            let seconds = parseInt(timeComponents[2], 10);
-            return (hours * 3600 + minutes * 60 + seconds) * 1000;
-          }
-      
-          function updateTimer() {
-            const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((timeRemaining / 1000 / 60) % 60);
-            const seconds = Math.floor((timeRemaining / 1000) % 60);
-            const milliseconds = timeRemaining % 1000;
-      
-            timer.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
-      
-            if (timeRemaining < 0) {
-              clearInterval(timeInterval);
-              timer.innerHTML = 'Expired';
-              
-            }
-            timeRemaining -= 1000;
-          }
-      
-          updateTimer();
-          timeInterval = setInterval(updateTimer, 1000);
-        });
-      </script>
-      
-      
-      
-      
-      
-      
-          
-        

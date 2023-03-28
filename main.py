@@ -236,22 +236,40 @@ def show_product(pid):
     
     current_user=session.get('username')
     #current_userId=session.get('id')
-    query=db.engine.execute(f"SELECT * FROM `products`;")
+    # query=db.engine.execute(f"SELECT * FROM `products`;")
     user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
     user_id = user[0]
-    if(request.method == 'POST'):
-        bprice_db = request.form.get('bid')
+    
+    # print("/////////////////////////////////****************")
+    # print(new_bid)
+    if(request.method == 'POST' ):
+        bprice_db = int(request.form.get('bid'))
+        base_price = db.session.execute(f"SELECT pprice FROM `products` WHERE pid=:pid;", {'pid': pid}).fetchone()
         # unumber_db = request.form.get('user_phone')
-        print(bprice_db)
-        pid_db=pid
-        entry = Bidders( uid = user_id , bprice=bprice_db, pid=pid_db)
-        db.session.add(entry)
-        db.session.commit()
-
-
+        base_price1 = int(base_price[0])
+        print(type(base_price1))
+        print(type(bprice_db))
+        
+        if(base_price1 < bprice_db):
+            pid_db=pid
+            entry = Bidders( uid = user_id , bprice=bprice_db, pid=pid_db)
+            db.session.add(entry)
+            db.session.commit()
+    
     return render_template('product.html', product=product,id = user_id)
 
 
+@app.route('/myproduct/<int:uid>')
+# @login_required
+def my_products(uid):
+    print("Yes")
+    # product = Products.query.get('pid')
+    my_product = db.session.execute(f"SELECT * FROM `bidders` WHERE uid=:uid;", {'uid': uid})
+    if my_product is None:
+        return 'Product not found', 404
+    
+    return render_template('myproduct.html', bidders=my_product)
+    
 
 
 if __name__ == "__main__":

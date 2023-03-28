@@ -67,21 +67,40 @@
       <img src="{{ product.image_url }}" alt="{{ product.name }}">
     </div>
     <div id="product-details">
-      <h1>{{ product.name }}</h1>
+      <h1>{{ product.pname }}</h1>
+      <h1>{{product.pcategory}}</h1>
       <!-- /<p><strong>Brand:</strong> {{ product.pbrand }}</p> -->
       <p><strong>Price:</strong> <span id="product-price">${{ product.pprice }}</span></p>
       <p><strong>Description:</strong> {{ product.pdesc }}</p>
       <p><strong>Features:</strong></p>
       <form action="/product/{{product.pid}}" method="post">
+        <form>
       <div class="form-group">
-        <label for="basePrice" name="bid">Bid Price:</label>
-        <input type="number" class="form-control" id="basePrice" name="bid" required>
+        <label for="basePrice" name="bid" id="biddedprice">Bid Price:</label>
+        <input type="number" class="form-control" id="biddedPrice" name="bid" required>
+
+        
       
-      <h1>{{id}}</h1>
+      <!-- <h1>{{id}}</h1> -->
       <hr>
       <div class="text-center">
-        <button type="submit" class="btn colorful-btn">Submit</button>
+        <button type="submit" class="btn colorful-btn" onclick="check()" >Submit</button>
       </div>  
+      
+
+      <script>
+        
+        function check(){
+          var bid = document.getElementById("biddedPrice").value;
+          var base_price = {{ product.pprice }};
+           if(bid < base_price){
+             alert("Please Enter Price Greater than Base Price");
+           }
+          }
+        
+      </script>
+
+
     </div>
   </form>
     </div>
