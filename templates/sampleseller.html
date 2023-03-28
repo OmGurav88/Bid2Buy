@@ -144,7 +144,7 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
               
               
               <div class="text-center">
-                <button type="submit" class="btn colorful-btn" onclick="openPopup()">Submit</button>
+                <button type="submit" class="btn colorful-btn" onclick="openConBox()">Submit</button>
                 <div class="popup" id="popup">
                   <img src="static/assets/img/404-tick.png">
                   <h2>Your Product is Added</h2>
@@ -156,6 +156,10 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
             </form>
 <script>
   let popup = document.getElementById("popup");
+
+  function openConBox(){
+    confirm("Want to add")
+  }
 
   function openPopup(){
       popup.classList.add("open-popup");

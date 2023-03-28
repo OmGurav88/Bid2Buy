@@ -72,7 +72,7 @@
       <p><strong>Price:</strong> <span id="product-price">${{ product.pprice }}</span></p>
       <p><strong>Description:</strong> {{ product.pdesc }}</p>
       <p><strong>Features:</strong></p>
-      <form>
+      <form action="/product/{{product.pid}}" method="post">
       <div class="form-group">
         <label for="basePrice" name="bid">Bid Price:</label>
         <input type="number" class="form-control" id="basePrice" name="bid" required>
