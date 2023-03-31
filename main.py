@@ -321,6 +321,37 @@ def my_products(uid):
     return render_template('myproduct.html', bidders=my_product)
     
 
+@app.route('/myprofile/<int:uid>')
+def my_profile(uid):
+    print("\nYes",uid)
+    my_Profile = db.session.execute(f"SELECT * FROM `users` WHERE uid=:uid;", {'uid': uid}).fetchone()
+    if my_Profile is None:
+        print("Hello")
+        return 'Profile not found', 404
+        
+    
+    return render_template('myprofile.html',profile=my_Profile)
+
+
+
+@app.route('/editprofile/<int:uid>', methods = [ 'GET' , 'POST'])
+def edit_profile(uid): 
+    if(request.method == 'POST'):
+        # Add Entry TO Database
+        # contact_no , name, email, pNumber, message, dt 
+        # the first name is entry in the database and another name is for Html page 
+        new_name  = request.form.get('name')
+        new_email = request.form.get('email')
+        new_phone = request.form.get('phone')
+
+        db.session.execute('UPDATE `users` SET uname = :name, umail = :email, unumber = :phone WHERE uid = :id', {'name': new_name, 'email': new_email, 'phone': new_phone, 'id': uid})
+        db.session.commit()
+        
+
+    return render_template('editprofile.html',uid=uid)
+
+
+
 
 if __name__ == "__main__":
     app.run(debug = True,port = 5005)
