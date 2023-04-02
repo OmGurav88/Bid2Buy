@@ -259,7 +259,7 @@
 
     <body class="main-bg">
         <div class="login-container text-c animated flipInX">
-            <!-- {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages() %}
                 {% if messages %}
                 <div class="alert">
                     {% for message in messages %}
@@ -267,7 +267,7 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-                {% endwith %} -->
+                {% endwith %}
 
             <h3 class="text-whitesmoke">User Sign Up</h3>
             <p class="text-whitesmoke">Please fill in this form to create an account.</p>
@@ -278,19 +278,24 @@
                 {% endif %} 
                 {% endwith %} 
                 
-                <form class="margin-t" action="/signup.html" method="post">
+                <form class="margin-t" action="/signup.html" method="post" onsubmit="return confirm('Are you sure you want to SignUp With Us?');">
                     <div class="form-group">
                         <label class="text-whitesmoke" for="username" float:left><b>Enter Username</b></label>
                         <input type="text" name="user_name" class="form-control" placeholder="Username" required="">
                     </div>
                     <div class="form-group">
                         <label class="text-whitesmoke" for="username" float:left><b>Enter Mobile number</b></label>
-                        <input type="text" name="user_phone" class="form-control" placeholder="mobile number"
+                        <input type="text" name="user_phone" class="form-control" placeholder="Enter Mobile Number"
                             required="">
                     </div>
                     <div class="form-group">
                         <label class="text-whitesmoke" for="email"><b>Enter Email</b></label>
                         <input type="text" name="user_email" class="form-control" placeholder="Enter Email" required="">
+                    </div>
+                    <div class="form-group">
+                        <label class="text-whitesmoke" for="city" float:left><b>Enter Your City</b></label>
+                        <input type="text" name="user_city" class="form-control" placeholder="Enter City"
+                            required="">
                     </div>
                     <div class="form-group">
                         <label class="text-whitesmoke" for="psw"><b>Password</b></label>

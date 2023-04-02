@@ -179,9 +179,10 @@ li a i {
       <h1>{{product.pcategory}}</h1>
       <!-- /<p><strong>Brand:</strong> {{ product.pbrand }}</p> -->
       <p><strong>Price:</strong> <span id="product-price">${{ product.pprice }}</span></p>
+      <p><strong>Current Highest Bid:</strong> <span id="product-price">${{ curr_bid }}</span></p>
       <p><strong>Description:</strong> {{ product.pdesc }}</p>
       <p><strong>Features:</strong></p>
-      <form action="/product/{{product.pid}}" method="post">
+      <form action="/product/{{product.pid}}" method="post" onsubmit="return confirm('Are you sure to Bid This Product?');">
         <form>
       <div class="form-group">
         <label for="basePrice" name="bid" id="biddedprice">Bid Price:</label>
@@ -200,9 +201,9 @@ li a i {
         
         function check(){
           var bid = document.getElementById("biddedPrice").value;
-          var base_price = {{ product.pprice }};
+          var base_price = {{ curr_bid }};
            if(bid < base_price){
-             alert("Please Enter Price Greater than Base Price");
+             alert("Please Enter Price Greater than Current Bid Price");
            }
           }
         

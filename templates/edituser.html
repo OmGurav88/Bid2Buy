@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit User</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+      .btn-primary {
+        background-color: #09090a;
+        border-color: #e90e95;
+      }
+      .btn-primary:hover {
+        background-color: #f610df;
+        border-color: #e53935;
+      }
+      .form-group label {
+        color: #0d0d0d;
+        font-weight: bold;
+      }
+      .form-control {
+        border-color: #101010;
+      }
+      .form-control:focus {
+        border-color: #040404;
+        box-shadow: 0 0 0 0.2rem rgba(244, 67, 54, 0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-5 mb-4 text-center" style="color: #040404;">Edit User</h1>
+      <h4 class="mt-5 mb-4 text-center" style="color: #2e0404;">User Id : {{uid}}</h4>
+      <form action="/admin/edituser/{{uid}}" method="post" onsubmit="return confirm('Are you sure to Edit User?');">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="mobile">Mobile Number:</label>
+          <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile number">
+        </div>
+        <div class="form-group">
+          <label for="city">City:</label>
+          <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+    </div>
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
