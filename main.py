@@ -427,5 +427,16 @@ def admincontacts():
     return render_template('contact-admin.html', contacts=admin_contacts)
 
 
+@app.route('/admin/viewproduct/<int:pid>')
+def viewproducts(pid):
+    
+    view_bidders = db.session.execute(f"SELECT * FROM `bidders` WHERE pid=:pid ORDER BY bprice desc;", {'pid': pid})
+    curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
+    view_product = db.session.execute(f"SELECT * FROM `products` WHERE pid = :pid;", {'pid': pid}).fetchone()
+    latest_bid = int(curr_bid[0])
+    return render_template('viewproduct.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
+
+
+
 if __name__ == "__main__":
     app.run(debug = True,port = 5005)
