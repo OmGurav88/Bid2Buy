@@ -69,6 +69,7 @@ class Products(db.Model):
     pclosing=db.Column(db.String(100), nullable = False)
     pstarted=db.Column(db.String(100))
     ptimer = db.Column(db.Time)
+    uid=db.Column(db.Integer, nullable = False)
 
     # def __init__(self, p_category, p_name, p_price, p_desc, p_closing, p_started, ptimer):
     #     self.p_category = p_category
@@ -114,7 +115,8 @@ def base_index():
 @app.route('/home.html')
 def home():
     user=session.get('username')
-    return render_template('productsrow.html', name2 = user , )
+    
+    return render_template('productsrow.html', name2 = user ,)
 
 @app.route('/index.html')
 def index():
@@ -126,11 +128,15 @@ def seller():
         # Add Entry TO Database
         # contact_no , name, email, pNumber, message, dt 
         # the first name is entry in the database and another name is for Html page 
+        current_user=session.get('username')
+        user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
+        user_id = user[0]
         pcategory_db  = request.form.get('category')
         pname_db = request.form.get('productName')
         pprice_db = request.form.get('price')
         pdesc_db = request.form.get('msg')
         pclosing_db = request.form.get('date')
+        uid_db = user_id
        
        # Get bidding duration
         hours = request.form.get('hours')
@@ -143,7 +149,7 @@ def seller():
 
 
         # Add to the Database
-        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db)
+        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db,uid=uid_db)
         # entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
         # entry = Products(pcategory_db ,pname_db , pprice_db ,pdesc_db , pclosing_db , pstarted, ptimer_db)
 
@@ -157,12 +163,14 @@ def seller():
 def buyer():
     # buyer = "gurav"
     current_user=session.get('username')
+    # session['user_id'] = current_user.id
+    # id=session.get('user_id')
     #current_userId=session.get('id')
     query=db.engine.execute(f"SELECT * FROM `products`;")
     user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
     user_id = user[0]
 
-    return render_template('samplehome.html',products = query,name2=current_user,id=user_id)
+    return render_template('samplehome.html',products = query,name2=current_user,id=user_id,)
 
 
 @app.route('/about.html')
@@ -229,10 +237,10 @@ def signup():
 
         # Check if the email already exists in the database
         # Query the database for a user with a specific email address
-        user = Users.query.filter_by(umail=umail_db).first()
+        user = Users.query.filter_by(uname=uname_db).first()
         print(user)
         if user:
-            flash('Email already exists in the database')
+            flash('Username already exists in the database')
             print("user exists")
             return render_template('signup.html')
         else :
@@ -435,6 +443,12 @@ def viewproducts(pid):
     view_product = db.session.execute(f"SELECT * FROM `products` WHERE pid = :pid;", {'pid': pid}).fetchone()
     latest_bid = int(curr_bid[0])
     return render_template('viewproduct.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
+
+
+@app.route('/productonbid/<int:uid>')
+def view_productOnBid(uid):
+    productOnBid = db.session.execute(f"SELECT * FROM `products` WHERE uid=:uid;", {'uid': uid})
+    return render_template('productonbid.html',bidders=productOnBid)
 
 
 
