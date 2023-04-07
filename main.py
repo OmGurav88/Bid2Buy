@@ -4,7 +4,7 @@ from flask_login import UserMixin,login_manager
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import login_user,logout_user,login_manager,LoginManager
 from flask_login import login_required,current_user
-import time
+from datetime import datetime, timedelta
 from datetime import datetime
 import json 
 
@@ -135,7 +135,7 @@ def seller():
         pname_db = request.form.get('productName')
         pprice_db = request.form.get('price')
         pdesc_db = request.form.get('msg')
-        pclosing_db = request.form.get('date')
+        pclosing_db = request.form.get('datetime')
         uid_db = user_id
        
        # Get bidding duration
@@ -143,7 +143,7 @@ def seller():
         minutes = request.form.get('minutes')
         seconds = request.form.get('seconds')
         ptimer_db = f"{hours}:{minutes}:{seconds}"
-        pstarted = datetime.now()
+        # pstarted = datetime.now()
         # print("********************* timer values checking ******************")
         # print(ptimer_db)
 
@@ -310,7 +310,7 @@ def show_product(pid):
     user_id = user[0]
     print(curr_bid[0])
     if(curr_bid[0] is None):
-        latest_bid = 0
+        latest_bid = product.pprice
     else:
         latest_bid = int(curr_bid[0])
 
@@ -450,6 +450,33 @@ def view_productOnBid(uid):
     productOnBid = db.session.execute(f"SELECT * FROM `products` WHERE uid=:uid;", {'uid': uid})
     return render_template('productonbid.html',bidders=productOnBid)
 
+
+
+# @app.route('/auction')
+# def auction():
+#     # Calculate time remaining until auction ends
+    
+#     time_remaining = auction_end_time - datetime.now()
+
+#     # Check if auction has ended
+#     if time_remaining <= timedelta():
+#         return render_template('auction_ended.html')
+
+#     # Render auction template with time remaining
+#     return render_template('auction.html', time_remaining=time_remaining)
+
+@app.route('/sample/<int:pid>', methods = ['GET','POST'])
+# @login_required
+def sample(pid):
+    print("Yes")
+    # product = Products.query.get('pid')
+    product = db.session.execute(f"SELECT * FROM `products` WHERE pid=:pid;", {'pid': pid}).fetchone()
+    if product is None:
+        return 'Product not found', 404
+    
+    
+    
+    return render_template('sample.html', product=product,)
 
 
 if __name__ == "__main__":

@@ -182,31 +182,59 @@ li a i {
       <p><strong>Current Highest Bid:</strong> <span id="product-price">${{ curr_bid }}</span></p>
       <p><strong>Description:</strong> {{ product.pdesc }}</p>
       <p><strong>Features:</strong></p>
-      <form action="/product/{{product.pid}}" method="post" onsubmit="return confirm('Are you sure to Bid This Product?');">
-        <form>
+      <h1>Sale Ends in <span id="countdown"></span></h1>
+      <form action="/product/{{product.pid}}" method="post" >
+        
       <div class="form-group">
         <label for="basePrice" name="bid" id="biddedprice">Bid Price:</label>
         <input type="number" class="form-control" id="biddedPrice" name="bid" required>
 
         
       
-      <!-- <h1>{{id}}</h1> -->
       <hr>
       <div class="text-center">
         <button type="submit" class="btn colorful-btn" onclick="check()" >Submit</button>
       </div>  
+    </form>
       
 
       <script>
         
         function check(){
           var bid = document.getElementById("biddedPrice").value;
-          var base_price = {{ curr_bid }};
+          var base_price = '{{ curr_bid }}';
            if(bid < base_price){
              alert("Please Enter Price Greater than Current Bid Price");
            }
+           else{
+              confirm('Are you sure to Bid This Product?');
+           }
           }
         
+          var saleEndTime = new Date('{{ product.pclosing.strftime("%Y-%m-%d %H:%M:%S") }}');
+
+		// Update the countdown timer every second
+		setInterval(function() {
+			// Get the current time
+			var now = new Date();
+
+			// Calculate the time remaining in seconds
+			var timeRemaining = (saleEndTime.getTime() - now.getTime()) / 1000;
+
+			// Calculate the hours, minutes, and seconds remaining
+			var hoursRemaining = Math.floor(timeRemaining / 3600);
+			var minutesRemaining = Math.floor((timeRemaining % 3600) / 60);
+			var secondsRemaining = Math.floor(timeRemaining % 60);
+
+			// Update the countdown timer
+      if(hoursRemaining >=0 && minutesRemaining >= 0 && secondsRemaining >= 0){
+			  document.getElementById('countdown').innerHTML = hoursRemaining + ' hours, ' + minutesRemaining + ' minutes, ' + secondsRemaining + ' seconds' + "Hurry Up!!";
+		  }
+      else{
+        // document.getElementById('countdown').innerHTML = "0" + ' hours, ' + "0" + ' minutes, ' + "0" + ' seconds' + "\n" + "Bid For Product is Expired!";
+        document.getElementById('countdown').innerHTML = "Sorry Bid For Product is Expired!";
+      }
+    }, 1000);
       </script>
 
 

@@ -1,82 +1,222 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Product Page</title>
-    <style>
-      /* Styles for the navigation bar */
-      .navbar {
-        overflow: hidden;
-        background-color: #333;
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>{{ product.pname }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #111;
+    }
+    #container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    #product-image {
+      float: left;
+      margin-right: 20px;
+    }
+    #product-image img {
+      width: 300px;
+      height: 300px;
+      object-fit: contain;
+    }
+    #product-details {
+      overflow: hidden;
+    }
+    #product-details h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    #product-details p {
+      font-size: 18px;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    #product-details strong {
+      font-weight: bold;
+    }
+    #product-price {
+      font-size: 36px;
+      color: #B12704;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    #add-to-cart {
+      display: inline-block;
+      background-color: #ff9900;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
 
-      .navbar a {
-        float: left;
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-      }
 
-      .navbar a:hover {
-        background-color: #ddd;
-        color: black;
-      }
+    .card-body {
+  height: 300px;
+  width: 300px;
+  /* border: 1px solid black; Adds a 1px solid black border */
+  background-color: lightblue;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 30px;
+      
+}
 
-      /* Styles for the product */
-      .product {
-        margin-top: 50px;
-        text-align: center;
-      }
+    .navbar {
+      background-color: #f44336;
+      color: white;
+    }
+    .navbar a {
+      color: white;
+    }
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .vertical-nav {
+      height: 100%;
+      width: 15%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #4CAF50;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+    .vertical-nav a {
+      padding: 10px;
+      color: white;
+      display: block;
+    }
+    .vertical-nav a:hover {
+      background-color: #ddd;
+      color: rgb(223, 202, 202);
+    }
+    .product-card {
+      width: 20%;
+      margin: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+    .product-card:hover {
+      box-shadow: 0 8px 16px 0 rgba(189, 11, 180, 0.2);
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+    }
+    nav {
+  background-color: #333333;
+  height: 50px;
+}
 
-      .product img {
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 20px;
-      }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
-      .product h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
-      }
+li {
+  float: left;
+}
 
-      .product p {
-        font-size: 16px;
-        margin-bottom: 20px;
-      }
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+  font-size: 18px;
+}
 
-      .product strong {
-        font-weight: bold;
-      }
+li a:hover {
+  background-color: #efe6e6;
+}
 
-      .product button {
-        background-color: #333;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-      }
+li a i {
+  margin-right: 5px;
+}
+.nav {
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #231e1e;
+  z-index: 999;
+}
+  </style>
+</head>
+<body>
 
-      .product button:hover {
-        background-color: #555;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="navbar">
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">About Us</a>
-      <a href="#">Contact Us</a>
+
+  <nav class="nav">
+    <ul>
+      <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+      <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+      <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
+      <li><a href="login">  <i class=""></i> Logout</a></li>
+    </ul>
+  </nav>
+  
+  <div id="container">
+    <div id="product-image">
+      <img src="{{ product.image_url }}" alt="{{ product.name }}">
     </div>
-    <div class="product">
-      <img src="product-image.jpg" alt="Product Image">
-      <h2>Product Name</h2>
-      <p>Description of the product goes here.</p>
-      <p><strong>Price: </strong>$99.99</p>
-      <button>Add to Cart</button>
+    <div id="product-details">
+      <h1>{{ product.pname }}</h1>
+      <h1>{{product.pcategory}}</h1>
+      <!-- /<p><strong>Brand:</strong> {{ product.pbrand }}</p> -->
+      <p><strong>Price:</strong> <span id="product-price">${{ product.pprice }}</span></p>
+      <p><strong>Current Highest Bid:</strong> <span id="product-price">${{ curr_bid }}</span></p>
+      <p><strong>Description:</strong> {{ product.pdesc }}</p>
+      <p><strong>Features:</strong></p>
+      <h1>Sale Ends in <span id="countdown"></span></h1>
+        
+      
+      
+      
+
+      <script>
+		var saleEndTime = new Date('{{ product.pclosing.strftime('%Y-%m-%d %H:%M:%S') }}');
+
+		// Update the countdown timer every second
+		setInterval(function() {
+			// Get the current time
+			var now = new Date();
+
+			// Calculate the time remaining in seconds
+			var timeRemaining = (saleEndTime.getTime() - now.getTime()) / 1000;
+
+			// Calculate the hours, minutes, and seconds remaining
+			var hoursRemaining = Math.floor(timeRemaining / 3600);
+			var minutesRemaining = Math.floor((timeRemaining % 3600) / 60);
+			var secondsRemaining = Math.floor(timeRemaining % 60);
+
+			// Update the countdown timer
+			document.getElementById('countdown').innerHTML = hoursRemaining + ' hours, ' + minutesRemaining + ' minutes, ' + secondsRemaining + ' seconds';
+		}, 1000);
+        
+      </script>
+
+
     </div>
-  </body>
+  </form>
+    </div>
+  
+  </div>
+</body>
 </html>
+
+      
