@@ -137,12 +137,6 @@ def seller():
         pdesc_db = request.form.get('msg')
         pclosing_db = request.form.get('datetime')
         uid_db = user_id
-        pclose_date=int(pclosing_db[9]+pclosing_db[10])
-        # print("&&&&&&&&&&&&&&&&&&& close date- ")
-        # for i in range(10):
-        #     print(" ",pclosing_db[i])
-        # print("&&&&&&&&&&&&&&&&&&& close date- ",pclose_date)
-
        
        # Get bidding duration
         hours = request.form.get('hours')
@@ -152,10 +146,6 @@ def seller():
         # pstarted = datetime.now()
         # print("********************* timer values checking ******************")
         # print(ptimer_db)
-        dt = int(pstarted.strftime("%d"))
-        # print("%%%%%%%%%%%%%%%% - ",dt)
-        # if (dt > pclose_dt) :
-            
 
 
         # Add to the Database
@@ -288,7 +278,6 @@ def adminlogin():
         admin1_pass="om123"
         admin2="prayog"
         admin2_pass="prayog123"
-        flag=0
         if (username==admin1 and password==admin1_pass) :
             flag=1
         if (username==admin2 and password==admin2_pass ) :
@@ -296,10 +285,9 @@ def adminlogin():
 
         if flag:
             return redirect(url_for('adminhome'))
-        else :
-            return render_template('adminlogin.html')
         
         
+        return render_template('adminlogin.html')
 
 
     return render_template('adminlogin.html')  
