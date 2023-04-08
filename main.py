@@ -216,7 +216,7 @@ def contact():
         db.session.add(entry)
         db.session.commit()
 
-    return render_template('contact.html')
+    return render_template('index.html')
 
 @app.route('/post.html')
 def post():

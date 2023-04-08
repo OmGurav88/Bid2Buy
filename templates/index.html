@@ -1,19 +1,468 @@
 {% extends "wologin.html" %}
 {% block body %}
-        <!-- Page Header-->
-        <header class="masthead" style="background-image: url('static/assets/img/bid.jpeg')">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="site-heading">
-                            <h1>Sell $ Buy</h1>
-                            <span class="subheading">Goods Here!</span>
-                        </div>
-                    </div>
+<!-- Page Header-->
+<style>
+    /* .cards-bar {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        width: 100%;
+    } */
+
+    .card {
+        flex: 0 0 auto;
+        margin-right: 40px;
+        padding: 50px;
+        border: 1px solid #241e1e;
+        transition: transform 0.2s ease-in-out;
+        width: 300px;
+        /* change this to your desired card width */
+        height: 400px;
+    }
+
+    /* .................................................. */
+    .cards-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .cards-bar {
+        display: flex;
+        flex-wrap: nowrap;
+        width: max-content;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card {
+        flex: 0 0 auto;
+        margin-right: 40px;
+        padding: 30px;
+        border: 1px solid #241e1e;
+        transition: transform 0.2s ease-in-out;
+        width: 300px;
+        background-image: url('../static/assets/img/galaxy.png');
+        color: black;
+    }
+    .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(255, 255, 255, 0.7); */
+  background-image: url('../static/assets/img/galaxy.png');
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.card h3 {
+  margin: 10px 20px;
+  font-size: 24px;
+  font-weight: bold;
+}/* }
+.card:hover::before {
+  opacity: 1;
+} */
+
+.card:hover img {
+  transform: scale(1.1);
+  filter: brightness(120%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover h3 {
+  color: #000000;
+  transition: color 0.3s ease-in-out;
+}
+
+.card:hover p {
+  color: #000000;
+  transition: color 0.3s ease-in-out;
+}
+
+.card p {
+  margin: 10px 20px;
+  
+  font-size: 18px;
+}
+    .card:hover img {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+    .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: #e67979;
+        border-radius: 50%;
+        border: 2px solid #000;
+        cursor: pointer;
+        /* display: flex; */
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    .arrow.left {
+        left: 10px;
+        /* position: absolute; */
+        background-image: url('../static/assets/img/leftarrow.png');
+        background-size: cover;
+        z-index: 100;
+    }
+
+    .arrow.right {
+        right: 10px;
+        /* position: absolute; */
+        background-image: url('../static/assets/img/rightarrow.png');
+        background-size: cover;
+        z-index: 100;
+    }
+    /* Style the form container */
+#contactForm {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color:transparent;
+  border: transparent;
+  border-radius: 5px;
+}
+
+/* Style the form fields
+.form-floating {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-floating input,
+.form-floating textarea {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color:transparent;
+  color:white;
+  box-shadow: none;
+  width: 100%;
+}
+
+.form-floating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  pointer-events: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  transform-origin: 0 0;
+  transition: all 0.1s ease-in-out;
+}
+
+.form-floating input:focus,
+.form-floating textarea:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: #040b12;
+  color:white;
+  border:0;
+   
+} */
+
+.form-floating input:focus + label,
+.form-floating textarea:focus + label,
+.form-floating input:not(:placeholder-shown) + label,
+.form-floating textarea:not(:placeholder-shown) + label {
+  transform: translateY(-18px) scale(0.8);
+  font-size: 12px;
+  font-weight: 500;
+  color: #007bff;
+}
+
+/* Style the submit button */
+/* #submitButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+} */
+
+#submitButton:hover {
+  background-color: #0a2c51;
+}
+#myInput {
+  background-color: rgb(4, 4, 3);
+}
+  /* remove borders from form fields */
+  .form-control {
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(11, 11, 61);
+    color: white;
+  }
+  input#name.form-control {
+    background-color: rgb(11, 11, 61);
+    color: white;
+  }
+  input#email.form-control {
+    background-color: rgb(11, 11, 61);
+    color: white;
+  }
+  input#phone.form-control {
+    background-color: rgb(11, 11, 61);
+    color: white;
+  }
+  input#message.form-control {
+    background-color: rgb(11, 11, 61);
+    color: white;
+  }
+  /* set text color to white */
+  label, span.input-group-text {
+    color: white;
+    border: none;
+  }
+  
+  /* set background color to transparent */
+  label, span.input-group-text, button {
+    background-color: transparent;
+    color: white;
+  }
+  .heading:hover {
+  /* Your hover styles here */
+  color: rgb(255, 255, 255);
+  font-size: 200%;
+}
+  
+  /* style the button */
+  button {
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  
+
+</style>
+
+<header class="masthead" style="background-image: url('static/assets/img/auction4.jpg'); height: 100vh;">
+    <div class="container-fluid position-relative h-100 px-4 px-lg-5">
+        <div class="row h-100 align-items-center justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading text-left">
+                    <h1>Online Auction System</h1>
+                    <span class="subheading">Bid your goods here!</span>
                 </div>
             </div>
-        </header>
-        
-        <!-- Footer-->
-        
+        </div>
+    </div>
+</header>
+<div>
+    <h2 style="text-align: center; color: black; font-style: italic;">Bidding items</h2>
+
+    <br>
+
+</div>
+
+<div class="cards-container" id="cards-container">
+    <div class="cards-bar">
+        <div class="card">
+            <img src="../static/assets/img/product1.jpg" alt="Product 1">
+            <h3>Laptop</h3>
+            <p>Bidding Price: $50</p>
+            
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/keyboard.png" alt="Product 1">
+            <h3>Keyboard</h3>
+            <p>Bidding Price: $125</p>
+
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/bike.png" alt="Product 1">
+            <h3>Bike</h3>
+            <p>Bidding Price: $50,000</p>
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/product1.jpg" alt="Product 1">
+            <h3>Study Table</h3>
+            <p>Bidding Price: $75,000</p>
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/product1.jpg" alt="Product 1">
+            <h3>Bed</h3>
+            <p>Bidding Price: $12,000</p>
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/product1.jpg" alt="Product 1">
+            <h3>Bicycle</h3>
+            <p>Bidding Price: $12,000</p>
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/product1.jpg" alt="Product 1">
+            <h3>Yamaha Suzuki 220</h3>
+            <p>Bidding Price: $2,20,000</p>
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/product1.jpg" alt="Product 1">
+            <h3>Sonata Watch</h3>
+            <p>Bidding Price: $25,000</p>
+        </div>
+        <div class="card">
+            <img src="../static/assets/img/product1.jpg" alt="Product 1">
+            <h3>Product 8</h3>
+            <p>Bidding Price: $50</p>
+        </div>
+        <div class="arrow left" id="left-arrow" data-direction="-1"></div>
+        <div class="arrow right" id="right-arrow" data-direction="1"></div>
+
+
+
+        <!-- Add more cards here -->
+    </div>
+
+</div>
+
+<br><br><br><br>
+<section id="about" class="about" style="color: black; background-image: url('../static/assets/img/galaxy.jpg');height:70vh;color:white">
+    <div class="container" >
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <br><br>
+          <h2 class="heading">About Us</h2>
+          <p class="lead">We are a team of passionate individuals who are dedicated to providing the best online auction experience. Our mission is to connect buyers and sellers from all over the world and facilitate a safe, efficient, and enjoyable bidding process. With our user-friendly platform and expert customer support, we strive to exceed your expectations and make your auction experience a success.</p>
+          <h4>Contributers :</h4>
+          <ol>
+            <li>Yash Ghumai - 112003044</li>
+            <li>Om Gurav - 112003047</li>
+            <li>Prayog Ingale - 112003049</li>
+          </ol>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="contact" class="about" style="color: rgb(255, 255, 255); background-image: url('../static/assets/img/galaxy.jpg');height:70vh;color:rgb(255, 255, 255)">
+    <div class="container" >
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <br><br>
+          <h2 class="heading">Contact Us</h2>
+          <form id="contactForm" action="/contact.html" method="post" data-sb-form-api-token="API_TOKEN">
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Name</span>
+                <input type="text" class="form-control " id="name" name="name"  placeholder="Enter your name..." required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Email address</span>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email..." required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Phone Number</span>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number..." required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Message</span>
+                <textarea class="form-control" id="message" name="msg" placeholder="Enter your message here..." style="height: 6rem" required></textarea>
+              </div>
+            </div>
+            <button type="submit">Send</button>
+          </form>
+          
+          
+          
+          <!-- <form id="contactForm" action="/contact.html" method="post" data-sb-form-api-token="API_TOKEN">
+            <div class="form-floating">
+                <input class="form-control" id="name" type="text" name="name" placeholder="Enter your name..." data-sb-validations="required" />
+                <label for="name">Name</label>
+                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+            </div>
+            <div class="form-floating">
+                <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email..." data-sb-validations="required,email" />
+                <label for="email">Email address</label>
+                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+            </div>
+            <div class="form-floating">
+                <input class="form-control" id="phone" name="phone" type="tel" placeholder="Enter your phone number..." data-sb-validations="required" />
+                <label for="phone">Phone Number</label>
+                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+            </div>
+            <div class="form-floating">
+                <textarea class="form-control" id="message" name="msg" placeholder="Enter your message here..." style="height: 12rem" data-sb-validations="required"></textarea>
+                <label for="message">Message</label>
+                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary " id="submitButton" >Send</button>
+        </form>
+           -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+    const cardsContainer = document.getElementById("cards-container");
+    const leftArrow = document.getElementById("left-arrow");
+    const rightArrow = document.getElementById("right-arrow");
+    const cardWidth = 300; // change this to match your card width
+    const arrowClickDistance = 3 * cardWidth; // change this to set the distance the cards move when an arrow is clicked
+
+    // Add click event listeners to the arrow elements
+    leftArrow.addEventListener("click", () => {
+        cardsContainer.scrollBy({
+            left: -arrowClickDistance,
+            behavior: "smooth"
+        });
+    });
+
+    rightArrow.addEventListener("click", () => {
+        const currentScrollPosition = cardsContainer.scrollLeft;
+        const newScrollPosition = currentScrollPosition + arrowClickDistance;
+        const maxScrollPosition = cardsContainer.scrollWidth - cardsContainer.clientWidth;
+        const finalScrollPosition = newScrollPosition > maxScrollPosition ? maxScrollPosition : newScrollPosition;
+
+        cardsContainer.scrollTo({
+            left: finalScrollPosition,
+            behavior: "smooth"
+        });
+    });
+</script>
+
+<!-- Footer-->
 {% endblock %}
