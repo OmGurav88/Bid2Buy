@@ -20,9 +20,71 @@
     <link href="static/css/styles.css" rel="stylesheet" />
     <style>
         body {
-  background-color: #1c1c1d;
-  color: white;
+            background-color: #ffffff;
+            color: white;
+            background-size : cover;
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+        }
+        .navbar-nav {
+  margin-top: 10px;
 }
+.nav-link dropdown-toggle{
+    margin-top: 100px;
+}
+
+
+        .nav-link {
+            color: #ffffff !important;
+        }
+
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+
+        #mainNav .navbar-nav>li {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+        .dropdown-menu {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+/* .dropdown-menu {
+  padding: 0.5rem 0;
+  /* color :#f8f9fa; */
+  /* background-color: transparent !important;
+  box-shadow: none !important; */
+  /* border-radius: 0.5rem; */
+  /* box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); */
+/* } */ 
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  color:white
+}
+
+.dropdown-item:hover {
+  color: #080808;
+  /* background-color: #f1f4f6; */
+}
+.dropdown:hover .dropdown-menu {
+    display: inline-block;
+}
+.navbar .dropdown-toggle {
+  margin-top: 16px;
+}
+
+.dropdown-menu {
+    background-color: transparent;
+}
+
+
+
     </style>
 </head>
 
@@ -30,7 +92,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.html">Bid2Buy</a>
+            <a class="navbar-brand" href="index.html"  style="font-family: Bellevue;">Bid2Buy</a>
             <button class="navbar-toggler" type="submit" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
@@ -43,19 +105,19 @@
                                 href="login">Login/Register</a></li> -->
 
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                      Login
+                                    <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button"  aria-expanded="false" data-bs-hover="dropdown">
+                                        Login
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                      <li><a class="dropdown-item" href="/login">User</a></li>
-                                      <li><a class="dropdown-item" href="/AdminLogin">Admin</a></li>
-                                      <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/login">User</a></li>
+                                        <li><a class="dropdown-item" href="/AdminLogin">Admin</a></li>
+                                        <li><hr class="dropdown-divider"></li>
                                     </ul>
-                                  </li>        
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">About us</a>
+                                </li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#about">About us</a>
                         </li>
                         <!-- <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="post.html">Sample Post</a></li> -->
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="contact.html">Contact us</a>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#contact">Contact us</a>
                         </li>
                     </ul>
                 </div>
@@ -72,42 +134,18 @@
     {% endblock %}
 
 
-    <hr>
-    <footer class="border-top">
+    <hr><footer class="border-top" style="background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;; color: white;">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
-                    <ul class="list-inline text-center">
-                        <li class="list-inline-item">
-                            <a href="#!">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#!">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#!">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2022</div>
+                    
+                    <div class="text-center fst-italic" style="color:#ffffff " >Copyright &copy; Bid2Buy 2022<br>Bid your goods here!</div>
+                    
                 </div>
             </div>
         </div>
     </footer>
+    
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
@@ -122,4 +160,26 @@
         animation: 150,
         handle: '.nav-link'
     });
+    // <script>
+            const cardsBar = document.querySelector('.cards-bar');
+const leftArrow = document.querySelector('.arrow.left');
+const rightArrow = document.querySelector('.arrow.right');
+
+let scrollPosition = 0;
+
+leftArrow.addEventListener('click', () => {
+  if (scrollPosition > 0) {
+    scrollPosition -= 300;
+    cardsBar.style.transform = `translateX(-${scrollPosition}px)`;
+  }
+});
+
+rightArrow.addEventListener('click', () => {
+  if (scrollPosition < cardsBar.scrollWidth - cardsBar.clientWidth) {
+    scrollPosition += 300;
+    cardsBar.style.transform = `translateX(-${scrollPosition}px)`;
+  }
+});
+
+        // </script>
 </script>
