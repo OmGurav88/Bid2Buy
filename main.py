@@ -339,14 +339,14 @@ def sorry():
 def my_products(uid):
     print("Yes")
     # product = Products.query.get('pid')
-    my_product = db.session.execute(f"SELECT * FROM `bidders` WHERE uid=:uid;", {'uid': uid})
+    my_product = db.session.execute(f"SELECT DISTINCT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid})
     #my_product1 = db.session.execute(f"SELECT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid}).fetchone()
     #print(my_product1[0])
 
     
     
     
-    return render_template('myproduct.html', bidders=my_product)
+    return render_template('myproduct.html', bidders=my_product )
     
 
 @app.route('/myprofile/<int:uid>')
@@ -442,7 +442,7 @@ def viewproducts(pid):
     curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
     view_product = db.session.execute(f"SELECT * FROM `products` WHERE pid = :pid;", {'pid': pid}).fetchone()
     latest_bid = int(curr_bid[0])
-    return render_template('viewproduct.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
+    return render_template('viewproductadmin.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
 
 
 @app.route('/productonbid/<int:uid>')
@@ -477,6 +477,35 @@ def sample(pid):
     
     
     return render_template('sample.html', product=product,)
+
+
+@app.route('/user/viewproduct/<int:pid>')
+def viewproductsuser(pid):
+    current_user=session.get('username')
+    user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
+    
+    user_id = user[0]
+    view_bidders = db.session.execute(f"SELECT * FROM `bidders` WHERE pid=:pid and uid=:uid ORDER BY bprice desc;", {'pid': pid,'uid':user_id})
+    curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
+    view_product = db.session.execute(f"SELECT * FROM `products` WHERE pid = :pid;", {'pid': pid}).fetchone()
+    latest_bid = int(curr_bid[0])
+    return render_template('viewproductuser.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
+
+
+@app.route('/winproduct/<int:uid>')
+# @login_required
+def win_products(uid):
+    print("Yes")
+    # product = Products.query.get('pid')
+    my_product = db.session.execute(f"SELECT * FROM `bidders` WHERE uid=:uid;", {'uid': uid})
+    #my_product1 = db.session.execute(f"SELECT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid}).fetchone()
+    #print(my_product1[0])
+    curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
+
+    latest_bid = int(curr_bid[0])
+    
+    
+    return render_template('winproduct.html', bidders=my_product,curr_bid =latest_bid )
 
 
 if __name__ == "__main__":
