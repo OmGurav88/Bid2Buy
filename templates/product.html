@@ -178,7 +178,16 @@ li a i {
   font-size: 30px ;
 }
 .main{
-  background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;;
+  background-image: url('../static/assets/img/galaxy1.jpg');height: 30vh;;
+}
+.alert {
+        margin-top: 70px;
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        
+        text-align: center;
 }
   </style>
 </head>
@@ -196,10 +205,24 @@ li a i {
     </ul>
   </nav>
   
+    
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert">
+      {% for message in messages %}
+      <p>{{ message }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  
   <div id="container">
     <div id="product-image">
       <img src="{{ product.image_url }}" alt="{{ product.name }}">
     </div>
+    
+
+    
     <div id="product-details">
       <p>Product Name : <b>{{ product.pname }}</b></p>
       <hr>
@@ -230,8 +253,8 @@ li a i {
 
       <script>
         
-        function check(){
-          var bid = document.getElementById("biddedPrice").value;
+       function check(){
+        var bid = document.getElementById("biddedPrice").value;
           var base_price = '{{ curr_bid }}';
            if(bid < base_price){
              alert("Please Enter Price Greater than Current Bid Price");
@@ -239,9 +262,9 @@ li a i {
            else{
               confirm('Are you sure to Bid This Product?');
            }
-          }
+       }
         
-          var saleEndTime = new Date('{{ product.pclosing.strftime("%Y-%m-%d %H:%M:%S") }}');
+    var saleEndTime = new Date('{{ product.pclosing.strftime("%Y-%m-%d %H:%M:%S") }}');
 
 		// Update the countdown timer every second
 		setInterval(function() {
@@ -259,6 +282,7 @@ li a i {
 			// Update the countdown timer
       if(hoursRemaining >=0 && minutesRemaining >= 0 && secondsRemaining >= 0){
 			  document.getElementById('countdown').innerHTML = hoursRemaining + ' hours, ' + minutesRemaining + ' minutes, ' + secondsRemaining + ' seconds' + "Hurry Up!!";
+        
 		  }
       else{
         // document.getElementById('countdown').innerHTML = "0" + ' hours, ' + "0" + ' minutes, ' + "0" + ' seconds' + "\n" + "Bid For Product is Expired!";

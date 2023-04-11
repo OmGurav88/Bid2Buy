@@ -29,6 +29,7 @@ db.init_app(app)
 
 # DEFINING THE DATABASE MODELS
 
+
 class Loginusers(db.Model):
     login_id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(50), nullable = False)
@@ -323,7 +324,24 @@ def show_product(pid):
     if(request.method == 'POST' ):
         bprice_db = int(request.form.get('bid'))
         # pbid_db = int(request.form.get('bid'))
-        
+        pstarted = product.pclosing
+        # print(product.pstarted)
+        # print(product.pclosing)
+        now = datetime.now()
+        formatted_pstarted = pstarted.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
+        # print(formatted_date - formatted_pstarted)
+
+        date1 = datetime.strptime(formatted_pstarted, '%Y-%m-%d %H:%M:%S')
+        date2 = datetime.strptime(formatted_date, '%Y-%m-%d %H:%M:%S')
+
+        time_difference_seconds = (date1 - date2).total_seconds()
+
+        if(time_difference_seconds <= 0):
+            flash('Sorry!! You cant Bid Now')
+            return render_template('product.html', product=product,id = user_id,curr_bid=latest_bid)
+
+
         
         if(latest_bid < bprice_db):
             pid_db=pid
