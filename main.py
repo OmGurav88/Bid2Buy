@@ -394,12 +394,15 @@ def edit_profile(uid):
         # Add Entry TO Database
         # contact_no , name, email, pNumber, message, dt 
         # the first name is entry in the database and another name is for Html page 
-        new_name  = request.form.get('name')
+        new_name  = request.form.get('username')
         new_email = request.form.get('email')
-        new_phone = request.form.get('phone')
+        new_phone = request.form.get('mobile')
+        new_pass = request.form.get('password')
+        new_city = request.form.get('city')
 
 
-        db.session.execute('UPDATE `users` SET uname = :name, umail = :email, unumber = :phone WHERE uid = :id', {'name': new_name, 'email': new_email, 'phone': new_phone, 'id': uid})
+
+        db.session.execute('UPDATE `users` SET uname = :name, umail = :email, unumber = :phone, upass = :new_pass ,ucity = :city WHERE uid = :id', {'name': new_name, 'email': new_email, 'phone': new_phone, 'id': uid,'city':new_city })
         db.session.commit()
 
         flash('Your Details Updated Successfully','success')
