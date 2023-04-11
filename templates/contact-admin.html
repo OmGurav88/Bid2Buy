@@ -57,38 +57,40 @@
 	</style>
 </head>
 <body>
-	<div class="navbar">
-		<a href="/adminhome">Home</a>
-		<a href="#">Products</a>
-		<a href="#">About Us</a>
-		<a href="#">Contact Us</a>
-	  </div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        
+        <div class="navbar">
+            <a href="/adminhome">Admin</a>
+            <a href="/adminhome">Home</a>
+            <a  href="/AdminLogin">Logout</a>
+          </div>
+    </nav>
 	<h1>Admin Dashboard - All Queries</h1>
 	<div class="container">
 		<table class="table">
 			<thead class="thead-dark">
 				<tr>
-					<th>User Id</th>
+					<!-- <th>User Id</th> -->
 					
 					<th>User Email</th>
 					
                     <th>User Message</th>
-                    <th>Query Added</th>
-                    <th>Action</th>
+                    <th>Date/Time</th>
+                    <!-- <th>Action</th> -->
 				</tr>
 			</thead>
 			<tbody>
 				{% for contact in contacts %}
 				<tr>
-                    <td>{{ contact.uid }}</td>
+                    <!-- <td>{{ contact.uid }}</td> -->
 					
 					<td>{{ contact.email }}</td>
 					
 					<td>{{ contact.message }}</td>
                     <td>{{ contact.dt }}</td>
-                    <td>
+                    <!-- <td>
                         <a href="/myprofile/{{ contact.uid }}" >View User</a>
-                    </td>
+                    </td> -->
 
 				</tr>
 				{% endfor %}
