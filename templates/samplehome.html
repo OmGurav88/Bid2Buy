@@ -10,11 +10,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     .card-body {
-  height: 300px;
+  height: 340px;
   width: 300px;
   /* border: 1px solid black; Adds a 1px solid black border */
   background-color: lightblue;
-  border: 1px solid #ccc;
+  color: black;
+  border: 3px solid #f9f7f7;
   border-radius: 5px;
   padding: 30px;
       
@@ -50,6 +51,17 @@
     .vertical-nav a:hover {
       background-color: #ddd;
       color: rgb(223, 202, 202);
+    }
+    .navbar {
+      background-color: #f44336;
+      color: white;
+    }
+    .navbar a {
+      color: white;
+    }
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
     }
     .product-card {
       width: 20%;
@@ -104,10 +116,17 @@ li a i {
   background-color: #231e1e;
   z-index: 999;
 }
+.card-body:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease-in-out;
+}
+.main-body{
+  background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;
+}
 
   </style>
 </head>
-<body>
+<body class="main-body">
 
         <nav class="nav">
             <ul>
@@ -136,14 +155,15 @@ li a i {
                 <div class="card-body d-flex flex-column">
                   <img src="{{ product.image }}" alt="{{ product.name }}" class="card-img-top mb-2">
                   <h5 class="card-title">{{ product.pname }}</h5>
+                  <hr>
                   <p class="card-text">Product Number: {{ product.pid }}</p>
-                  <p class="card-text">Bid Price: {{ product.pprice }}</p>
+                  <p class="card-text">Bid Base Price: {{ product.pprice }}</p>
                   <p class="card-text">Start Time: {{ product.pstarted }}</p>
                   <!-- <h1>{{id}}</h1>
                   <h1>{{name2}}</h1> -->
                   <div class="mb-auto">
-                    <h5 class="card-text">Time Left: <span class="startBidTimer" data-time="{{ product.ptimer }}"></span></h5>
-                    <p>"{{ product.ptimer }}"</p>
+                    <!-- <h5 class="card-text">Time Left: <span class="startBidTimer" data-time="{{ product.ptimer }}"></span></h5> -->
+                    <p>Time - <b>{{ product.ptimer }}</b></p>
                     <a href="/product/{{product.pid}}" class="btn btn-primary">View This Product</a>
                   </div>
                 </div>
