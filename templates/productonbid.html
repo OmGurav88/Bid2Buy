@@ -19,6 +19,11 @@
   padding: 30px;
       
 }
+body {
+      /* background: linear-gradient(to bottom, #180550 0%, #2e12ca 100%);
+       */
+       background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;;
+    }
 
     .navbar {
       background-color: #f44336;
@@ -109,14 +114,16 @@ li a i {
 </head>
 <body>
 
-        <nav class="nav">
-            <ul>
-              <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
-              <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
-              <li><a href="#"><i class="fa fa-tasks"></i> My Products</a></li>
-              <li><a href="/login">  <i class=""></i> Logout</a></li>
-            </ul>
-          </nav>
+  <nav class="nav">
+    <ul>
+      <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+      <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+      <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
+      <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
+      <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
+      <li><a href="login">  <i class=""></i> Logout</a></li>
+    </ul>
+  </nav>
           
 
         

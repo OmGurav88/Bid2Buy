@@ -54,8 +54,9 @@
 
         /* Buttons */
         .button {
-            border-radius: 3px;
-            color: #e6e6e6;
+            /* border-radius: 3px; */
+            color: #ede8e8;
+            background-color: rgba(255, 255, 255, 0.24);
         }
 
         .form-button {
@@ -197,10 +198,10 @@
         /* Container */
 
         .container-content {
-            background-color: #3a3a3aa2;
+            background-color: #171853a2;
             color: inherit;
             padding: 15px 20px 20px 20px;
-            border-color: #FFEB3B;
+            border-color: #ffffff;
             border-image: none;
             border-style: solid solid none;
             border-width: 1px 0;
@@ -210,8 +211,10 @@
 
         .main-bg {
 
-            background: #424242;
-            background: linear-gradient(#424242, #212121);
+            background: #1c0857;
+            background: linear-gradient( #1c0857,  #1c0857);
+            background: url('../static/assets/img/galaxy.jpg');
+  background-size: cover;
         }
 
         /* Login & Register Pages*/
@@ -237,12 +240,6 @@
             font-weight: 800;
             letter-spacing: -10px;
             margin-bottom: 0;
-        }
-
-        .username {
-            /* font-weight: bold; */
-            text-align: left;
-            float: left;
         }
         .alert {
         background-color: #f8d7da;
@@ -270,7 +267,7 @@
                 {% endwith %}
 
             <h3 class="text-whitesmoke">User Sign Up</h3>
-            <p class="text-whitesmoke">Please fill in this form to create an account.</p>
+            <p >Please fill in this form to create an account.</p>
             <div class="container-content">
                 {% with messages = get_flashed_messages() %}
                 {% if messages %} 
@@ -307,7 +304,7 @@
                             required="">
                     </div>
 
-                    <p class="text-whitesmoke" color: 255>By creating an account you agree to our <a href="#">Terms &
+                    <p class="text-whitesmoke" color: 255>By creating an account you agree to our <a href="#" style="color:white">Terms &
                             Privacy</a>.</p>
                     <!-- <a href="login.html"></a><button type="submit" class="registerbtn">Register</button></a> -->
                     <button type="submit" class="btn btn-primary " id="submitButton">Register</button>

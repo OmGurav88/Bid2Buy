@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Bid2Buy</title>
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <!-- Custom CSS -->
   <style>
     body {
-      background: linear-gradient(to bottom, #b47878 0%, #b3b3b3 100%);
+      /* background: linear-gradient(to bottom, #180550 0%, #2e12ca 100%);
+       */
+       background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;;
     }
     .colorful-btn {
   background-color: #ff4d4d; /* Set the background color */
@@ -51,6 +53,91 @@
   transform: translate(-50%, -50%) scale(0.7);
 
 }
+
+.navbar {
+      background-color: #f44336;
+      color: white;
+    }
+    .navbar a {
+      color: white;
+    }
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .vertical-nav {
+      height: 100%;
+      width: 15%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #4CAF50;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+    .vertical-nav a {
+      padding: 10px;
+      color: white;
+      display: block;
+    }
+    .vertical-nav a:hover {
+      background-color: #ddd;
+      color: rgb(223, 202, 202);
+    }
+    .product-card {
+      width: 20%;
+      margin: 10px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+    .product-card:hover {
+      box-shadow: 0 8px 16px 0 rgba(189, 11, 180, 0.2);
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+    }
+    nav {
+  background-color: #333333;
+  height: 50px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+li a:hover {
+  background-color: #efe6e6;
+}
+
+li a i {
+  margin-right: 5px;
+}
+.nav {
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #231e1e;
+  z-index: 999;
+}
 .popup img{
 width: 100px;
 margin-top: -50px;
@@ -77,6 +164,64 @@ cursor: pointer;
 box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
 
+/* .nav {
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #231e1e;
+  z-index: 999;
+} */
+.navbar {
+      background-color: #f44336;
+      color: white;
+    }
+    .navbar a {
+      color: white;
+    }
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    /* .vertical-nav {
+      height: 100%;
+      width: 15%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #4CAF50;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+    .vertical-nav a {
+      padding: 10px;
+      color: white;
+      display: block;
+    }
+    .vertical-nav a:hover {
+      background-color: #ddd; */
+      /* color: rgb(223, 202, 202); */
+    /* } */
+    .navbar {
+      background-color:transparent;
+      color: white;
+    }
+    .navbar a {
+      color: white;
+    }
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .nav {
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: transparent;
+  z-index: 999;
+}
 
 
 
@@ -84,9 +229,20 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 </head>
 <body>
   <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-darkbrown">
-    <a class="navbar-brand" href="#">Bid2Buy</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="nav">
+    <ul>
+      <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+      <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+      <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
+      <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
+      <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
+      <li><a href="login">  <i class=""></i> Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-darkbrown">
+    <a class="navbar-brand" href="#">Bid2Buy</a> -->
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -96,7 +252,7 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
         </li>
       </ul>
     </div>
-  </nav>
+  </nav> -->
 
   <!-- Add Product Form -->
   <div class="container mt-5">
@@ -137,16 +293,16 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
                 <textarea class="form-control" id="description" name="msg" rows="3" required></textarea>
               </div>
               <div class="form-floating">
-                
-                <label for="datetime">Date and Time:</label>
+                <p>Enter Bid Ending time </p>
+                <label for="datetime">Date/Time:</label>
                 <input type="datetime-local" id="datetime" name="datetime"><br>
                 <div class="invalid-feedback" data-sb-feedback="time:required">A Time is required.</div>
             </div>
               
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label for="date">Date:</label>
                 <input type="date" class="form-control" id="date" name="date" required>
-              </div>
+              </div> -->
               
               
               <div class="text-center">
@@ -164,7 +320,7 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
   let popup = document.getElementById("popup");
 
   function openConBox(){
-    confirm("Want to add")
+    confirm("Are you sure ! you want to add this product")
   }
 
   function openPopup(){

@@ -2,19 +2,37 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>{{ product.pname }}</title>
+  <title>Bid2Buy</title>
   <style>
+    .colorful-btn {
+  background-color: #050758; /* Set the background color */
+  color: #fff; /* Set the text color */
+  padding: 12px 24px; /* Set the padding */
+  border: none; /* Remove the border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  transition: all 0.3s ease-in-out; /* Add transition effect */
+}
+
+.colorful-btn:hover {
+  background-color: #00bfff; /* Change the background color on hover */
+  transform: translateY(-3px); /* Add a small vertical shift on hover */
+}
     body {
       font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
+      /* background-color: #f2f2f2; */
       color: #111;
+      background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;;
     }
+   
     #container {
       max-width: 1000px;
-      margin: 0 auto;
+      margin: 100px auto 0;
+      /* margin: 0 auto; */
       padding: 20px;
       background-color: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
     }
     #product-image {
       float: left;
@@ -156,9 +174,15 @@ li a i {
   background-color: #231e1e;
   z-index: 999;
 }
+.form-control{
+  font-size: 30px ;
+}
+.main{
+  background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;;
+}
   </style>
 </head>
-<body>
+<body class="main">
 
 
   <nav class="nav">
@@ -166,6 +190,8 @@ li a i {
       <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
       <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
       <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
+      <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
+      <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
       <li><a href="login">  <i class=""></i> Logout</a></li>
     </ul>
   </nav>
@@ -175,19 +201,23 @@ li a i {
       <img src="{{ product.image_url }}" alt="{{ product.name }}">
     </div>
     <div id="product-details">
-      <h1>{{ product.pname }}</h1>
-      <h1>{{product.pcategory}}</h1>
+      <p>Product Name : <b>{{ product.pname }}</b></p>
+      <hr>
+      <p>Product Category:<b>{{product.pcategory}}</b> </p>
+      <hr>
+      <p>Description: {{ product.pdesc }}</p><hr>
       <!-- /<p><strong>Brand:</strong> {{ product.pbrand }}</p> -->
-      <p><strong>Price:</strong> <span id="product-price">${{ product.pprice }}</span></p>
-      <p><strong>Current Highest Bid:</strong> <span id="product-price">${{ curr_bid }}</span></p>
-      <p><strong>Description:</strong> {{ product.pdesc }}</p>
-      <p><strong>Features:</strong></p>
-      <h1>Sale Ends in <span id="countdown"></span></h1>
+      <p>Base Price : <span id="product-price">${{ product.pprice }}</span></p><hr>
+      <p>Current Highest Bid: <span id="product-price">${{ curr_bid }}</span></p><hr>
+      
+      <!-- <p><strong>Features:</strong></p> -->
+      <h1>Sale Ends in <span id="countdown"></span></h1><hr>
       <form action="/product/{{product.pid}}" method="post" >
         
-      <div class="form-group">
-        <label for="basePrice" name="bid" id="biddedprice">Bid Price:</label>
-        <input type="number" class="form-control" id="biddedPrice" name="bid" required>
+      <div class="form-group" style="margin-right: 100px;">
+        <label for="basePrice" name="bid" id="biddedprice" >Enter Bid Price:</label>
+        <input required style="height: 30px; width: 200px;" type="number" class="form-control" id="biddedPrice" required size="100" name="bid" required>
+        
 
         
       
@@ -195,7 +225,7 @@ li a i {
       <div class="text-center">
         <button type="submit" class="btn colorful-btn" onclick="check()" >Submit</button>
       </div>  
-    </form>
+      </form>
       
 
       <script>
@@ -232,7 +262,7 @@ li a i {
 		  }
       else{
         // document.getElementById('countdown').innerHTML = "0" + ' hours, ' + "0" + ' minutes, ' + "0" + ' seconds' + "\n" + "Bid For Product is Expired!";
-        document.getElementById('countdown').innerHTML = "Sorry Bid For Product is Expired!";
+        document.getElementById('countdown').innerHTML = "  :Expired!";
       }
     }, 1000);
       </script>
