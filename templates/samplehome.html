@@ -264,7 +264,7 @@
       <div class="col-md-3 mb-4">
         <div class="float-card">
           <div class="card-body d-flex flex-column">
-            <img src="{{ product.image }}" alt="{{ product.name }}" class="card-img-top mb-2">
+            <img src="{{ url_for('static', filename='images/' + product.pimageName) }}" alt="Uploaded Image" class="card-img-top mb-2">
             <h5 class="card-title">{{ product.pname }}</h5>
             <hr>
             <p class="card-text">Product Number: {{ product.pid }}</p>

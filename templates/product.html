@@ -218,7 +218,11 @@ li a i {
   
   <div id="container">
     <div id="product-image">
-      <img src="{{ product.image_url }}" alt="{{ product.name }}">
+      {% if product.pimageName %}
+		    <img src="{{ url_for('static', filename='images/' + product.pimageName) }}" alt="Uploaded Image">
+	    {% else %}
+		    <p>No image was uploaded by owner.</p>
+	    {% endif %}
     </div>
     
 

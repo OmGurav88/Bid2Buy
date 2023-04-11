@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session,redirect,url_for,flash
+from flask import Flask,render_template,request,session,redirect,url_for,flash,Response,send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin,login_manager
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -7,6 +7,9 @@ from flask_login import login_required,current_user
 from datetime import datetime, timedelta
 from datetime import datetime
 import json 
+import os
+from werkzeug.utils import secure_filename
+from PIL import Image
 
 # from flask_mail import Mail
 
@@ -72,6 +75,7 @@ class Products(db.Model):
     ptimer = db.Column(db.Time)
     uid=db.Column(db.Integer, nullable = False)
     pbid=db.Column(db.Integer , nullable = False)
+    pimageName = db.Column(db.String(50), nullable=False)
 
     # def __init__(self, p_category, p_name, p_price, p_desc, p_closing, p_started, ptimer):
     #     self.p_category = p_category
@@ -109,6 +113,13 @@ class Bidders(db.Model):
     pid=db.Column(db.Integer,nullable=False)
     bprice=db.Column(db.Integer,nullable=False)
 
+
+class Image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(50), nullable=False)
+    
+
+
 @app.route('/')
 def base_index():
     return render_template('index.html')
@@ -140,6 +151,7 @@ def seller():
         pclosing_db = request.form.get('datetime')
         uid_db = user_id
         pbid_db = request.form.get('price')
+        
        
        # Get bidding duration
         hours = request.form.get('hours')
@@ -149,10 +161,15 @@ def seller():
         # pstarted = datetime.now()
         # print("********************* timer values checking ******************")
         # print(ptimer_db)
+        file = request.files['file']
+        filename = file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+    # Save filename to database
+        
 
         # Add to the Database
-        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db,uid=uid_db,pbid=pbid_db)
+        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db,uid=uid_db,pbid=pbid_db,pimageName=filename)
         # entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
         # entry = Products(pcategory_db ,pname_db , pprice_db ,pdesc_db , pclosing_db , pstarted, ptimer_db)
 
@@ -533,5 +550,40 @@ def win_products(uid):
     return render_template('winproduct.html', bidders=my_product )
 
 
+
+#################################################################
+# SAMPLE
+
+@app.route('/sample.html', methods=['GET','POST'])
+def upload():
+    if(request.method == 'POST'):
+        print("yes")
+        file = request.files['file']
+        filename = file.filename
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    # Save filename to database
+        image = Image(filename=filename)
+        db.session.add(image)
+        db.session.commit()
+
+    return render_template('sample.html')
+
+
+
+
+
+@app.route('/get_image/<int:id>')
+def get_image(id):
+    
+    name=db.session.execute("SELECT * FROM `image` WHERE id=:id;", {'id': id}).fetchone()
+    return render_template('sorry.html', image=name )
+    
+    
+################################################################
+
+
+
 if __name__ == "__main__":
+    app.config['UPLOAD_FOLDER'] = 'static/images/'
     app.run(debug = True,port = 5005)
