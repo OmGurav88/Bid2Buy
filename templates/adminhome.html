@@ -4,22 +4,15 @@
     <title>Admin Home</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        
         .jumbotron {
-            background-color: #070725;
-            
-            height: 300px;
+            background-color: #007bff;
+            height: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            text-shadow: 1px 1px #ffffff;
+            text-shadow: 1px 1px #000000;
         }
-        /* .main{
-            background-image: url('../static/assets/img/galaxy.jpg');
-            height: 30vh;
-             color: white;
-        } */
         .card {
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
             transition: transform 0.3s;
@@ -45,67 +38,32 @@
         .bg-info {
             background-color: #0a0a0a !important;
         }
-    
-		h1 {
-			margin-top: 50px;
-			margin-bottom: 30px;
-			font-weight: bold;
-			color: #343a40;
-			text-align: center;
-		}
-		table {
-			background-color: #fff;
-			border-radius: 10px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-			margin: 0 auto;
-			width: 80%;
-			max-width: 800px;
-			overflow: hidden;
-		}
-		th, td {
-			padding: 15px;
-			text-align: center;
-		}
-		th {
-			background-color: #343a40;
-			color: #fff;
-		}
-		tr:nth-child(even) {
-			background-color: #f2f2f2;
-		}
-		.navbar {
-        overflow: hidden;
-        background-color: #333;
-      }
-
-      .navbar a {
-        float: left;
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-      }
-
-      .navbar a:hover {
-        background-color: #ddd;
-        color: black;
-      }
     </style>
 </head>
-<body class="main">
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light"> -->
-        
-        <div class="navbar">
-            <a href="/adminhome">Admin</a>
-            <a href="/adminhome">Home</a>
-            <a  href="/AdminLogin">Logout</a>
-          </div>
-    <!-- </nav> -->
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Admin Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/adminhome">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/AdminLogin">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Create Admin</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div class="jumbotron">
         <h1 class="display-4">Welcome to the Admin Home Page</h1>
     </div>
-    <!-- <p class="lead">Here you can manage your users and products</p> -->
+    <p class="lead">Here you can manage your users and products</p>
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
@@ -113,7 +71,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Total Users</h5>
                         <p class="card-text"><b>{{ total_users }}</b></p>
-                        <a href="/admin/users" style="color: red;" ><u>View All Users</u></a>
+                        <a href="/admin/users" style="color: red;" >View All Users.</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +80,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Total Products</h5>
                         <p class="card-text"><b>{{ total_products }}</b></p>
-                        <a href="/admin/products" style="color: red;"> <u>View All Products</u></a>
+                        <a href="/admin/products" style="color: red;"> View All Products.</a>
                     </div>
                 </div>
             </div>
@@ -131,16 +89,16 @@
                     <div class="card-body">
                         <h5 class="card-title">Total Bidders</h5>
                         <p class="card-text"><b>{{ bidders }}</b></p>
-                        <a href="/admin/bidders" style="color: red;" ><u>View All Bidders</u>.</a>
+                        <a href="/admin/bidders" style="color: red;" >View All Bidders.</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card mb-3 bg-warning text-white">
+                <div class="card mb-3 bg-dark text-white">
                     <div class="card-body">
                         <h5 class="card-title">Total Query Received</h5>
                         <p class="card-text"><b>{{ queries }}</b></p>
-                        <a href="/admin/contacts" style="color: red;" ><u>View All Queries</u></a>
+                        <a href="/admin/contacts" style="color: red;" >View All Queries.</a>
                     </div>
                 </div>
             </div>

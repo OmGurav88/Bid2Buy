@@ -407,12 +407,11 @@ def edit_user(uid):
         new_name  = request.form.get('username')
         new_email = request.form.get('email')
         new_phone = request.form.get('mobile')
-        new_pass = request.form.get('password')
         new_city = request.form.get('city')
 
 
 
-        db.session.execute('UPDATE `users` SET uname = :name, umail = :email, unumber = :phone, upass = :new_pass ,ucity = :city WHERE uid = :id', {'name': new_name, 'email': new_email, 'phone': new_phone, 'id': uid,'city':new_city })
+        db.session.execute('UPDATE `users` SET uname = :name, umail = :email, unumber = :phone, ucity = :city WHERE uid = :id', {'name': new_name, 'email': new_email, 'phone': new_phone, 'id': uid,'city':new_city })
         db.session.commit()
 
         flash('Your Details Updated Successfully','success')
