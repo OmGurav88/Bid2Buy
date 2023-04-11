@@ -21,7 +21,7 @@
     body {
       font-family: Arial, sans-serif;
       /* background-color: #f2f2f2; */
-      color: #111;
+      /* color: #111; */
       background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;;
     }
    
@@ -30,7 +30,7 @@
       margin: 100px auto 0;
       /* margin: 0 auto; */
       padding: 20px;
-      background-color: #fff;
+      background-color: #b7bbed;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
       z-index: 999;
     }
@@ -178,7 +178,7 @@ li a i {
   font-size: 30px ;
 }
 .main{
-  background-image: url('../static/assets/img/galaxy1.jpg');height: 30vh;;
+  background-image: url('../static/assets/img/galaxy.jpg');height: 30vh;;
 }
 .alert {
         margin-top: 70px;
@@ -260,7 +260,15 @@ li a i {
              alert("Please Enter Price Greater than Current Bid Price");
            }
            else{
-              confirm('Are you sure to Bid This Product?');
+              // confirm('Are you sure to Bid This Product?');
+              var confirmed = confirm('Are you sure to Bid This Product?');
+        if(confirmed){
+            // user clicked OK
+            return true;
+        } else {
+            // user clicked Cancel
+            return false;
+        }
            }
        }
         
