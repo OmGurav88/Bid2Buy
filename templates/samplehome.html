@@ -104,21 +104,48 @@ li a i {
   background-color: #231e1e;
   z-index: 999;
 }
+nav ul li {
+  display: inline-block;
+  position: relative;
+}
+
+nav ul li ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+nav ul li:hover ul {
+  display: block;
+}
+
+nav ul li ul li {
+  display: block;
+}
 
   </style>
 </head>
 <body>
 
-        <nav class="nav">
-            <ul>
-              <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
-              <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
-              <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
-              <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
-              <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
-              <li><a href="login">  <i class=""></i> Logout</a></li>
-            </ul>
-          </nav>
+  <nav class="nav">
+    <ul>
+      <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+      <li><a href="#">Products <i class="fa fa-caret-down"></i></a>
+        <ul>
+          <li><a href="/myproduct/{{id}}">Product 1</a></li>
+          <li><a href="#">Product 2</a></li>
+          <li><a href="#">Product 3</a></li>
+        </ul>
+      </li>
+      <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+      <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
+      <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
+      <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
+      <li><a href="login">  <i class=""></i> Logout</a></li>
+    </ul>
+  </nav>
+  
           
 
         

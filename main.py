@@ -70,6 +70,7 @@ class Products(db.Model):
     pstarted=db.Column(db.String(100))
     ptimer = db.Column(db.Time)
     uid=db.Column(db.Integer, nullable = False)
+    pbid=db.Column(db.Integer , nullable = False)
 
     # def __init__(self, p_category, p_name, p_price, p_desc, p_closing, p_started, ptimer):
     #     self.p_category = p_category
@@ -137,6 +138,7 @@ def seller():
         pdesc_db = request.form.get('msg')
         pclosing_db = request.form.get('datetime')
         uid_db = user_id
+        pbid_db = request.form.get('price')
        
        # Get bidding duration
         hours = request.form.get('hours')
@@ -149,7 +151,7 @@ def seller():
 
 
         # Add to the Database
-        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db,uid=uid_db)
+        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db,uid=uid_db,pbid=pbid_db)
         # entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
         # entry = Products(pcategory_db ,pname_db , pprice_db ,pdesc_db , pclosing_db , pstarted, ptimer_db)
 
@@ -306,6 +308,7 @@ def show_product(pid):
     #current_userId=session.get('id')
     # query=db.engine.execute(f"SELECT * FROM `products`;")
     user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
+    
     curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
     user_id = user[0]
     print(curr_bid[0])
@@ -319,12 +322,15 @@ def show_product(pid):
     # print(new_bid)
     if(request.method == 'POST' ):
         bprice_db = int(request.form.get('bid'))
+        # pbid_db = int(request.form.get('bid'))
         
         
         if(latest_bid < bprice_db):
             pid_db=pid
             entry = Bidders( uid = user_id , bprice=bprice_db, pid=pid_db)
             db.session.add(entry)
+            db.session.execute('UPDATE `products` SET pbid = :bid , pbuid=:uid WHERE pid =:pid;', { 'bid': bprice_db,'pid':pid,'uid':user_id})
+            
             db.session.commit()
     
     return render_template('product.html', product=product,id = user_id,curr_bid=latest_bid)
@@ -497,15 +503,12 @@ def viewproductsuser(pid):
 def win_products(uid):
     print("Yes")
     # product = Products.query.get('pid')
-    my_product = db.session.execute(f"SELECT * FROM `bidders` WHERE uid=:uid;", {'uid': uid})
+    my_product = db.session.execute(f"SELECT * FROM `products` WHERE pbuid=:uid;", {'uid': uid})
     #my_product1 = db.session.execute(f"SELECT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid}).fetchone()
     #print(my_product1[0])
-    curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
-
-    latest_bid = int(curr_bid[0])
     
     
-    return render_template('winproduct.html', bidders=my_product,curr_bid =latest_bid )
+    return render_template('winproduct.html', bidders=my_product )
 
 
 if __name__ == "__main__":

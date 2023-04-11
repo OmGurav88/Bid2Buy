@@ -129,7 +129,7 @@ li a i {
     <div id="product-cards" class="ml-5"> 
         <div class="row">
           {% for product in bidders %}
-          {% if product.bprice == curr_bid %}
+          
             <div class="col-md-3 mb-4">
                 
                 
@@ -138,7 +138,8 @@ li a i {
               <div class="float-card">
                 <div class="card-body d-flex flex-column">
                   <h5 class="card-title">{{product.pid}}</h5>
-                  <h5 class="card-title">{{product.bprice}}</h5>
+                  <h5 class="card-title">{{product.pprice}}</h5>
+                  <h5 class="card-title">Price at which you Bidded : {{product.pbid}}</h5>
                   <a href="/user/viewproduct/{{product.pid}}" class="btn btn-primary">View This Product</a>
                   
                   
@@ -148,9 +149,8 @@ li a i {
               </div>
               
             </div>
-            {% else %}
-              {% endif %}
-          {% endfor %}
+            {% endfor %}
+            
         </div>
       </div>
       
