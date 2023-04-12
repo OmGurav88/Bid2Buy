@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bid2Buy_Admin</title>
+    <title>Edit User</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
@@ -31,88 +31,28 @@
         border-color: #040404;
         box-shadow: 0 0 0 0.2rem rgba(244, 67, 54, 0.25);
       }
-      body {
-			background-color: #f8f9fa;
-		}
-		h1 {
-			margin-top: 50px;
-			margin-bottom: 30px;
-			font-weight: bold;
-			color: #343a40;
-			text-align: center;
-		}
-		table {
-			background-color: #fff;
-			border-radius: 10px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-			margin: 0 auto;
-			width: 80%;
-			max-width: 800px;
-			overflow: hidden;
-		}
-		th, td {
-			padding: 15px;
-			text-align: center;
-		}
-		th {
-			background-color: #343a40;
-			color: #fff;
-		}
-		tr:nth-child(even) {
-			background-color: #f2f2f2;
-		}
-		.navbar {
-        overflow: hidden;
-        background-color: #333;
-      }
-
-      .navbar a {
-        float: left;
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-      }
-
-      .navbar a:hover {
-        background-color: #ddd;
-        color: black;
-      }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        
-      <div class="navbar">
-          <a href="/adminhome">Admin</a>
-          <a href="/adminhome">Home</a>
-          <a  href="/AdminLogin">Logout</a>
-        </div>
-  </nav>
     <div class="container">
       <h1 class="mt-5 mb-4 text-center" style="color: #040404;">Edit User</h1>
       <h4 class="mt-5 mb-4 text-center" style="color: #2e0404;">User Id : {{uid}}</h4>
       <form action="/admin/edituser/{{uid}}" method="post" onsubmit="return confirm('Are you sure to Edit User?');">
         <div class="form-group">
           <label for="username">Username:</label>
-          <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
         </div>
         <div class="form-group">
           <label for="mobile">Mobile Number:</label>
-          <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile number" required>
-        </div>
-        <div class="form-group">
-          <label for="password">New password:</label>
-          <input type="text" class="form-control" id="password" name="password" placeholder="password" required>
+          <input type="tel" class="form-control" id="mobile" name="mobile" placeholder="Enter mobile number">
         </div>
         <div class="form-group">
           <label for="city">City:</label>
-          <input type="text" class="form-control" id="city" name="city" placeholder="Enter city" required>
+          <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
         </div>
         <button type="submit" class="btn btn-primary">Save Changes</button>
       </form>

@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     .card-body {
-      height: 340px;
+      height: 500px;
       width: 300px;
       /* border: 1px solid black; Adds a 1px solid black border */
       background-color: lightblue;
@@ -85,9 +85,9 @@
       box-shadow: 0 8px 16px 0 rgba(189, 11, 180, 0.2);
     }
 
-    .product-card img {
-      width: 100%;
-      height: 200px;
+    .product-cards img {
+      width: 10%;
+      height: 100px;
     }
 
     nav {
@@ -116,7 +116,7 @@
     }
 
     li a:hover {
-      background-color: #efe6e6;
+      background-color: #9d9999;
     }
 
     li a i {
@@ -165,8 +165,9 @@
 
     /* Style the dropdown button */
     .dropbtn {
+      margin-top: 70px;
       background-color: #4CAF50;
-      color: rgb(255, 255, 255);
+      color: rgb(23, 20, 20);
       padding: 10px;
       font-size: 16px;
       border: none;
@@ -175,8 +176,9 @@
 
     /* Style the dropdown content */
     .dropdown-content {
+    
       display: none;
-      position: relative;
+      /* position: relative; */
       background-color: white;
       min-width: 160px;
       box-shadow: 0px 8px 16px 0px rgba(213, 73, 73, 0.2);
@@ -193,7 +195,7 @@
 
     /* Change the background color of the dropdown links on hover */
     .dropdown-content a:hover {
-      background-color: transparent;
+      background-color: rgb(134, 129, 129);
     }
 
     /* Show the dropdown menu on hover */
@@ -216,33 +218,27 @@
     <nav class="nav">
       <ul>
         <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+        <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
         <li>
           <div class="dropdown">
-            <button class=" fa fa-circle-o-notch">Product</button>
+            <button class=""><i class="fa fa-tasks"></i>Product</button>
             <div class="dropdown-content">
-              <a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a>
-              <a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a>
-              <a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a>
+              
+              <a href="/winproduct/{{id}}"><i class="fa fa-tasks"></i>  Win Product </a>
+              <a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i>On Bid Products</a>
+              <a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i>  My Products </a>
             </div>
           </div>
 
         </li>
-        <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
-        <li><a href="login"> <i class=""></i> Logout</a></li>
-        <!-- <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
-        <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
-        <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
-        <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li> -->
-        <!-- <li><a href="login"> <i class=""></i> Logout</a></li> -->
-        <!-- Add new dropdown menu -->
-        <!-- <li class="dropdown">
-          <a href="#">My Account <i class="fa fa-caret-down"></i></a>
-          <ul>
-            <li><a href="/myproduct/{{id}}">My Products</a></li>
-            <li><a href="/productonbid/{{id}}">My On Bid</a></li>
-            <li><a href="#">My Win Product</a></li>
-          </ul>
-        </li> -->
+        
+          
+
+        <li><a href="/myprofile/{{id}}"><i class="fa fa-user"></i> My Profile</a></li>
+        <li><a href="login"> <i class="fas fa-power-off"></i> Logout</a></li>
+        
+
+       
 
       </ul>
     </nav>
@@ -252,7 +248,7 @@
 
 
 
-
+  
 
 
   <br>
@@ -264,7 +260,7 @@
       <div class="col-md-3 mb-4">
         <div class="float-card">
           <div class="card-body d-flex flex-column">
-            <img src="{{ url_for('static', filename='images/' + product.pimageName) }}" alt="Uploaded Image" class="card-img-top mb-2">
+            <img src="{{ url_for('static', filename='images/' + product.pimageName) }}" alt="Uploaded Image" class="img">
             <h5 class="card-title">{{ product.pname }}</h5>
             <hr>
             <p class="card-text">Product Number: {{ product.pid }}</p>
@@ -286,6 +282,10 @@
   </div>
 
   <script>
+
+      
+
+
     // Get all the timer elements on the page
     const timers = document.querySelectorAll('.startBidTimer');
 
@@ -320,7 +320,8 @@
 
       updateTimer();
       timeInterval = setInterval(updateTimer, 1000);
-    });      </script>
+    });      
+    </script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
     crossorigin="anonymous"></script>

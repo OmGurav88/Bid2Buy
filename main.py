@@ -71,7 +71,7 @@ class Products(db.Model):
     pprice=db.Column(db.Integer(), nullable = False)
     pdesc=db.Column(db.String(200), nullable = False)
     pclosing=db.Column(db.String(100), nullable = False)
-    pstarted=db.Column(db.String(100))
+    pstarted=db.Column(db.String(100), nullable = True )
     ptimer = db.Column(db.Time)
     uid=db.Column(db.Integer, nullable = False)
     pbid=db.Column(db.Integer , nullable = False)
@@ -137,13 +137,16 @@ def index():
 
 @app.route('/seller.html',methods = ['GET' , 'POST'])
 def seller():
+    current_user=session.get('username')
+    user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
+    user_id = user[0]
     if(request.method == 'POST'):
         # Add Entry TO Database
         # contact_no , name, email, pNumber, message, dt 
         # the first name is entry in the database and another name is for Html page 
-        current_user=session.get('username')
-        user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
-        user_id = user[0]
+        # current_user=session.get('username')
+        # user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
+        # user_id = user[0]
         pcategory_db  = request.form.get('category')
         pname_db = request.form.get('productName')
         pprice_db = request.form.get('price')
@@ -152,12 +155,13 @@ def seller():
         uid_db = user_id
         pbid_db = request.form.get('price')
         
+        
        
        # Get bidding duration
-        hours = request.form.get('hours')
-        minutes = request.form.get('minutes')
-        seconds = request.form.get('seconds')
-        ptimer_db = f"{hours}:{minutes}:{seconds}"
+        # hours = request.form.get('hours')
+        # minutes = request.form.get('minutes')
+        # seconds = request.form.get('seconds')
+        # ptimer_db = f"{hours}:{minutes}:{seconds}"
         # pstarted = datetime.now()
         # print("********************* timer values checking ******************")
         # print(ptimer_db)
@@ -169,7 +173,7 @@ def seller():
         
 
         # Add to the Database
-        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),ptimer=ptimer_db,uid=uid_db,pbid=pbid_db,pimageName=filename)
+        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),uid=uid_db,pbid=pbid_db,pimageName=filename)
         # entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
         # entry = Products(pcategory_db ,pname_db , pprice_db ,pdesc_db , pclosing_db , pstarted, ptimer_db)
 
@@ -177,7 +181,7 @@ def seller():
         db.session.add(entry)
         db.session.commit()
 
-    return render_template('sampleseller.html')
+    return render_template('sampleseller.html',user_id=user_id)
 
 @app.route('/buyer')
 def buyer():
@@ -186,7 +190,7 @@ def buyer():
     # session['user_id'] = current_user.id
     # id=session.get('user_id')
     #current_userId=session.get('id')
-    query=db.engine.execute(f"SELECT * FROM `products`;")
+    query=db.engine.execute(f"SELECT * FROM `products` order by pclosing desc;")
     user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
     user_id = user[0]
 
@@ -486,9 +490,12 @@ def viewproducts(pid):
     view_bidders = db.session.execute(f"SELECT * FROM `bidders` WHERE pid=:pid ORDER BY bprice desc;", {'pid': pid})
     curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
     view_product = db.session.execute(f"SELECT * FROM `products` WHERE pid = :pid;", {'pid': pid}).fetchone()
-    latest_bid = int(curr_bid[0])
-    return render_template('viewproductadmin.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
-
+    # latest_bid = int(curr_bid[0])
+    if(curr_bid):
+        latest_bid = int(curr_bid[0])
+        return render_template('viewproductadmin.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
+    else:
+        return render_template('viewproductadmin.html',bidders=view_bidders,curr_bid=view_product.pbid,product=view_product)
 
 @app.route('/productonbid/<int:uid>')
 def view_productOnBid(uid):
