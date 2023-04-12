@@ -487,15 +487,17 @@ def admincontacts():
 @app.route('/admin/viewproduct/<int:pid>')
 def viewproducts(pid):
     
-    view_bidders = db.session.execute(f"SELECT * FROM `bidders` WHERE pid=:pid ORDER BY bprice desc;", {'pid': pid})
-    curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
     view_product = db.session.execute(f"SELECT * FROM `products` WHERE pid = :pid;", {'pid': pid}).fetchone()
     # latest_bid = int(curr_bid[0])
-    if(curr_bid):
+    print(view_product.pprice)
+    if(view_product.pbid > view_product.pprice):
+        view_bidders = db.session.execute(f"SELECT * FROM `bidders` WHERE pid=:pid ORDER BY bprice desc;", {'pid': pid})
+        curr_bid = db.session.execute(f"SELECT max(bprice) FROM `bidders` where pid=:pid;", {'pid': pid}).fetchone()
+
         latest_bid = int(curr_bid[0])
         return render_template('viewproductadmin.html',bidders=view_bidders,curr_bid=latest_bid,product=view_product)
     else:
-        return render_template('viewproductadmin.html',bidders=view_bidders,curr_bid=view_product.pbid,product=view_product)
+        return render_template('viewproductadmin.html',curr_bid=view_product.pbid,product=view_product)
 
 @app.route('/productonbid/<int:uid>')
 def view_productOnBid(uid):
