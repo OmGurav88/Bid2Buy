@@ -394,7 +394,7 @@ def my_products(uid):
     # product = Products.query.get('pid')
     my_product = db.session.execute(f"SELECT DISTINCT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid})
     #my_product1 = db.session.execute(f"SELECT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid}).fetchone()
-    #print(my_product1[0])
+    # print(my_product[0])
 
     
     
