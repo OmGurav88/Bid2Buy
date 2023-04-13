@@ -180,6 +180,7 @@ def seller():
 
         db.session.add(entry)
         db.session.commit()
+        flash('Your Product added Successfully!!')
 
     return render_template('sampleseller.html',user_id=user_id)
 
@@ -360,8 +361,15 @@ def show_product(pid):
 
         if(time_difference_seconds <= 0):
             flash('Sorry!! You cant Bid Now')
+            flash('Bid Time is Expired')
             return render_template('product.html', product=product,id = user_id,curr_bid=latest_bid)
-
+        if(user_id == product.pbuid):
+            flash('Sorry!! You cant Bid Now')
+            flash('You Have Highest Bid.')
+            return render_template('product.html', product=product,id = user_id,curr_bid=latest_bid)
+        if(user_id == product.uid):
+            flash('Sorry!! You cant Bid!! Its Your Product.')
+            return render_template('product.html', product=product,id = user_id,curr_bid=latest_bid)
 
         
         if(latest_bid < bprice_db):
@@ -502,7 +510,7 @@ def viewproducts(pid):
 @app.route('/productonbid/<int:uid>')
 def view_productOnBid(uid):
     productOnBid = db.session.execute(f"SELECT * FROM `products` WHERE uid=:uid;", {'uid': uid})
-    return render_template('productonbid.html',bidders=productOnBid)
+    return render_template('productonbid.html',bidders=productOnBid,id=uid)
 
 
 

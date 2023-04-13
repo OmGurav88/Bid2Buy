@@ -201,7 +201,7 @@ li a i {
       <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
       <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
       <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
-      <li><a href="login">  <i class=""></i> Logout</a></li>
+      <li><a href="/login"> <i class="fas fa-power-off"></i> Logout</a></li>
     </ul>
   </nav>
   
@@ -219,7 +219,7 @@ li a i {
   <div id="container">
     <div id="product-image">
       {% if product.pimageName %}
-		    <img src="{{ url_for('static', filename='images/' + product.pimageName) }}" alt="Uploaded Image">
+		    <img src="{{ url_for('static', filename='images/' + product.pimageName) }}"  alt="Uploaded Image">
 	    {% else %}
 		    <p>No image was uploaded by owner.</p>
 	    {% endif %}
@@ -234,11 +234,11 @@ li a i {
       <hr>
       <p>Description: {{ product.pdesc }}</p><hr>
       <!-- /<p><strong>Brand:</strong> {{ product.pbrand }}</p> -->
-      <p>Base Price : <span id="product-price">${{ product.pprice }}</span></p><hr>
-      <p>Current Highest Bid: <span id="product-price">${{ curr_bid }}</span></p><hr>
+      <p>Base Price : <span id="product-price">₹{{ product.pprice }}</span></p><hr>
+      <p>Current Highest Bid: <span id="product-price">₹{{ curr_bid }}</span></p><hr>
       
       <!-- <p><strong>Features:</strong></p> -->
-      <h1>Sale Ends in <span id="countdown"></span></h1><hr>
+      <h1>Bid Ends in <span id="countdown"></span></h1><hr>
       <form action="/product/{{product.pid}}" method="post" >
         
       <div class="form-group" style="margin-right: 100px;">

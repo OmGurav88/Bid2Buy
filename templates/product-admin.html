@@ -75,6 +75,7 @@
 					<th>Product Category</th>
 					<th>Product Price</th>
                     <th>Product Added</th>
+					<th>View Owner</th>
                     <th>Action</th>
 				</tr>
 			</thead>
@@ -86,6 +87,9 @@
 					<td>{{ product.pcategory }}</td>
 					<td>{{ product.pprice }}</td>
                     <td>{{ product.pstarted }}</td>
+					<td>
+                        <a href="/myprofile/{{ product.uid }}" >View Owner</a>
+                    </td>
                     <td>
                         <a href="/admin/viewproduct/{{ product.pid }}" >View Product</a>
                     </td>

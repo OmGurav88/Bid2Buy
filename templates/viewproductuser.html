@@ -96,14 +96,9 @@
     </style>
   </head>
   <body>
-    <div class="navbar">
-      <a href="/adminhome">Home</a>
-      <a href="#">Products</a>
-      <a href="#">About Us</a>
-      <a href="#">Contact Us</a>
-    </div>
+    
     <div class="product">
-      <img src="product-image.jpg" alt="Product Image">
+      <img src="{{ url_for('static', filename='images/' + product.pimageName) }}" alt="Product Image">
       <h2>Product Name : {{product.pname}}</h2>
       <h2>Product Category : {{product.pcategory}}</h2>
       <p>Description : {{product.pdesc}}</p>

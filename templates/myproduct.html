@@ -137,8 +137,11 @@ li a i {
             <div class="col-md-3 mb-4">
               <div class="float-card">
                 <div class="card-body d-flex flex-column">
-                  <h5 class="card-title">{{product.pid}}</h5>
-                  <h5 class="card-title">{{pname}}</h5>
+                  <h5 class="card-title">{{product.pname}}</h5>
+                  <h5 class="card-title">Product Base Price: {{product.pprice}}</h5>
+                  <p>You have currently Highest Bid on Product.</p>
+                  <h5 class="card-title">Your Bid Price: {{product.pbid}}</h5>
+                  <p class="card-title">Closing Time: {{product.pclosing}}</p>
                   <a href="/user/viewproduct/{{product.pid}}" class="btn btn-primary">View This Product</a>
                   
                   

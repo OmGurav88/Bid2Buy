@@ -222,7 +222,15 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
   background-color: transparent;
   z-index: 999;
 }
-
+.alert {
+        margin-top: 70px;
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        
+        text-align: center;
+}
 
 
   </style>
@@ -240,7 +248,15 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
     </ul>
   </nav>
   
-  
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert">
+      {% for message in messages %}
+      <p>{{ message }}</p>
+      {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
 
   <!-- Add Product Form -->
   <div class="container mt-5">

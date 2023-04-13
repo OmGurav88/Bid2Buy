@@ -9,11 +9,250 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
+
+body{
+
+background-color: #eee;
+}
+.container{
+width: 900px;
+}
+
+.card{
+
+background-color: #fff;
+border:none;
+border-radius: 10px;
+width: 190px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+.image-container{
+
+position: relative;
+}
+
+.thumbnail-image{
+border-radius: 10px !important;
+}
+
+
+.discount{
+
+background-color: red;
+padding-top: 1px;
+padding-bottom: 1px;
+padding-left: 4px;
+padding-right: 4px;
+font-size: 10px;
+border-radius: 6px;
+color: #fff;
+}
+
+.wishlist{
+
+height: 25px;
+width: 25px;
+background-color: #eee;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+box-shadow:  0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.first{
+
+position: absolute;
+width: 100%;
+    padding: 9px;
+}
+
+
+.dress-name{
+font-size: 13px;
+font-weight: bold;
+width: 100%;
+}
+
+
+.new-price{
+font-size: 13px;
+font-weight: bold;
+color: red;
+
+}
+.old-price{
+font-size: 8px;
+font-weight: bold;
+color: grey;
+}
+
+
+.btn{
+width: 14px;
+height: 14px;
+border-radius: 50%;
+padding: 3px;
+}
+
+.creme{
+background-color: #fff;
+border: 2px solid grey;
+
+
+}
+.creme:hover {
+border: 3px solid grey;
+}
+
+.creme:focus {
+background-color: grey;
+
+}
+
+
+.red{
+background-color: #fff;
+border: 2px solid red;
+
+}
+
+
+.red:hover {
+border: 3px solid red;
+}
+.red:focus {
+background-color: red;
+}
+
+
+
+.blue{
+background-color: #fff;
+border: 2px solid #40C4FF;
+}
+
+.blue:hover {
+border: 3px solid #40C4FF;
+}
+.blue:focus {
+background-color: #40C4FF;
+}
+.darkblue{
+background-color: #fff;
+border: 2px solid #01579B;
+}
+.darkblue:hover {
+border: 3px solid #01579B;
+}
+.darkblue:focus {
+background-color: #01579B;
+}
+.yellow{
+background-color: #fff;
+border: 2px solid #FFCA28;
+}
+.yellow:hover {
+border-radius: 3px solid #FFCA28;
+}
+.yellow:focus {
+background-color: #FFCA28;
+}
+
+
+.item-size{
+width: 15px;
+height: 25px;
+border-radius: 50%;
+background: #fff;
+border: 1px solid grey;
+color: grey;
+font-size: 10px;
+text-align: center;
+align-items: center;
+display: flex;
+justify-content: center;
+}
+
+
+.rating-star{
+font-size: 10px !important;
+}
+.rating-number{
+font-size: 10px;
+color: grey;
+
+}
+.buy{
+font-size: 12px;
+color: purple;
+font-weight: 500;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.voutchers{
+background-color: #fff;
+border:none;
+border-radius: 10px;
+width: 190px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+overflow: hidden;
+
+}
+.voutcher-divider{
+
+display: flex;
+
+}
+.voutcher-left{
+width: 60%
+}
+.voutcher-name{
+color: grey;
+font-size: 9px;
+font-weight: 500;
+}
+.voutcher-code{
+color: red;
+font-size: 11px;
+font-weight: bold;
+}
+.voutcher-right{
+width: 40%;	 
+background-color: purple;
+color: #fff;
+}
+
+.discount-percent{
+font-size: 12px;
+font-weight: bold;
+position: relative;
+top: 5px;
+}
+.off{
+font-size: 14px;
+position: relative;
+bottom: 5px;
+}
     .card-body {
-  height: 300px;
-  width: 300px;
+  height: 500px;
+  width: 350px;
   /* border: 1px solid black; Adds a 1px solid black border */
-  background-color: lightblue;
+  background-color: #b7bbed;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 30px;
@@ -110,6 +349,11 @@ li a i {
   z-index: 999;
 }
 
+.viewprod{
+  text-align: center;
+  background-color: #3a3737;
+  border: 2px solid black;
+}
   </style>
 </head>
 <body>
@@ -117,11 +361,25 @@ li a i {
   <nav class="nav">
     <ul>
       <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
-      <!-- <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
-      <li><a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i> My Products</a></li>
-      <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
-      <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
-      <li><a href="login">  <i class=""></i> Logout</a></li> -->
+      <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+      <li>
+        
+            
+            <li><a href="/winproduct/{{id}}"><i class="fa fa-tasks"></i>  Win Product </a></li>
+      <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i>On Bid Products</a></li>
+          <li> <a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i>  My Products </a></li>
+        
+
+      </li>
+      
+        
+
+      <li><a href="/myprofile/{{id}}"><i class="fa fa-user"></i> My Profile</a></li>
+      <li><a href="login"> <i class="fas fa-power-off"></i> Logout</a></li>
+      
+
+     
+
     </ul>
   </nav>
           
@@ -136,21 +394,52 @@ li a i {
     <div id="product-cards" class="ml-5"> 
         <div class="row">
           {% for product in bidders %}
-            <div class="col-md-3 mb-4">
-              <div class="float-card">
-                <div class="card-body d-flex flex-column">
-                    <span class="bg animated fadeInDown">{{product.pcategory}} </span>
-                    <h1>{{product.pname}}<br/> Exclusive on!!</h1>
-                    <p> {{product.pprice}}</p>
+            <div class="col-md-4 mb-4">
+              <div class="card-body">
+
+                <div class="image-container">
+  
+                  <div class="first">
                     
-                  <a href="/product/{{product.pid}}" class="btn btn-primary">View This Product</a>
-                  
-                  
+                    <div class="d-flex justify-content-between align-items-center">
+  
                     
-                 
+                    
+                    
+  
+                      </div>
+                  </div>
+  
+                  <img src="{{ url_for('static', filename='images/' + product.pimageName) }}" class="img-fluid rounded thumbnail-image">
+                  
+  
                 </div>
+  
+  
+                <div class="product-detail-container p-2">
+  
+                    
+                    <h3 class="">{{product.pname}}</h3>
+                    <h5 class="">{{product.pcategory}}</h5>
+                    <p class="">Base Price : ₹{{product.pprice}}</p>
+                    <h6 class="">Current Highest Bid : ₹{{product.pbid}}</h6>
+                    <h6 class="">Bid Started : {{product.pstarted}}</h6>
+                    <h6 class="">Bid Closing : {{product.pclosing}}</h6>
+                    
+                    
+  
+  
+                    
+  
+                  
+  
+                </div>
+                <div class="viewprod">
+                <a href="/product/{{product.pid}}"  style="color: rgb(248, 245, 245);">View This Product</a>
+              </div>
               </div>
             </div>
+            
           {% endfor %}
         </div>
       </div>
