@@ -393,14 +393,14 @@ def my_products(uid):
     print("Yes")
     # product = Products.query.get('pid')
     my_product = db.session.execute(f"SELECT DISTINCT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid})
-    #my_product1 = db.session.execute(f"SELECT pid FROM `bidders` WHERE uid=:uid;", {'uid': uid}).fetchone()
-    # print(my_product[0])
 
-    
     
     
     return render_template('myproduct.html', bidders=my_product )
     
+@app.route('/admin')
+def admin():
+    return render_template('adminhome.html')
 
 @app.route('/myprofile/<int:uid>')
 def my_profile(uid):
@@ -435,9 +435,9 @@ def edit_profile(uid):
         db.session.commit()
 
         flash('Your Details Updated Successfully','success')
-        # return redirect(url_for('edit_profile', uid=uid))
-        return redirect(url_for('my_profile', uid=uid))
-        #Above is the function Bro.
+        return redirect(url_for('edit_profile', uid=uid))
+        # return redirect(url_for('/admin'))
+        # return render_template('adminhome',uid=uid)
         
 
     return render_template('editprofile.html',uid=uid)
@@ -448,30 +448,56 @@ def adminusers():
     admin_users = db.engine.execute(f"SELECT * FROM `users`;")
     return render_template('users-admin.html', users=admin_users)
 
-@app.route('/admin/edituser/<int:uid>', methods = [ 'GET' , 'POST'])
-def edit_user(uid): 
-    if(request.method == 'POST'):
-        # Add Entry TO Database
-        # contact_no , name, email, pNumber, message, dt 
-        # the first name is entry in the database and another name is for Html page 
-        new_name  = request.form.get('username')
-        new_email = request.form.get('email')
-        new_phone = request.form.get('mobile')
-        new_pass = request.form.get('password')
-        new_city = request.form.get('city')
+# @app.route('/admin/edituser/<int:uid>', methods = [ 'GET' , 'POST'])
+# def edit_user(uid): 
+#     if(request.method == 'POST'):
+#         # Add Entry TO Database
+#         # contact_no , name, email, pNumber, message, dt 
+#         # the first name is entry in the database and another name is for Html page 
+#         new_name  = request.form.get('username')
+#         new_email = request.form.get('email')
+#         new_phone = request.form.get('mobile')
+#         new_pass = request.form.get('new_password')
+#         new_city = request.form.get('city')
+#         print("++++++++++++++++++++++++++=\n")
+#         print(new_name," ",new_email," ",new_pass," ",new_phone)
 
 
 
-        db.session.execute('UPDATE `users` SET uname = :name, umail = :email, unumber = :phone, upass = :new_pass ,ucity = :city WHERE uid = :id', {'name': new_name, 'email': new_email, 'phone': new_phone, 'id': uid,'city':new_city })
-        db.session.commit()
+#         db.session.execute('UPDATE `users` SET uname = :new_name, umail = :new_email, unumber = :new_phone, upass = :new_pass , ucnfpass:new_pass ,ucity = :new_city WHERE uid = :id', {'name': new_name, 'email': new_email, 'phone': new_phone, 'id': uid,'ucnfpass':new_pass,'city':new_city })
+#         db.session.commit()
 
-        flash('Your Details Updated Successfully','success')
-        # return redirect(url_for('edit_profile', uid=uid))
-        # return redirect(url_for('my_profile', uid=uid))
-        #Above is the function Bro.
+#         flash('Your Details Updated Successfully','success')
+#         return render_template('adminhome.html')
+#         # return redirect(url_for('edit_profile', uid=uid))
+#         # return redirect(url_for('my_profile', uid=uid))
+#         #Above is the function Bro.
         
 
-    return render_template('edituser.html',uid=uid)
+#     return render_template('edituser.html',uid=uid)
+@app.route('/admin/edituser/<int:uid>', methods=['GET', 'POST'])
+def edit_user(uid): 
+    if request.method == 'POST':
+        # Get form data
+        new_name = request.form.get('username')
+        new_email = request.form.get('email')
+        new_phone = request.form.get('mobile')
+        new_pass = request.form.get('new_password')
+        new_city = request.form.get('city')
+
+        # Update user in database
+        db.session.execute('UPDATE `users` SET uname = :new_name, umail = :new_email, unumber = :new_phone, upass = :new_pass, ucnfpass = :ucnfpass, ucity = :new_city WHERE uid = :uid',
+                            {'new_name': new_name, 'new_email': new_email, 'new_phone': new_phone, 'new_pass': new_pass, 'ucnfpass': new_pass, 'new_city': new_city, 'uid': uid})
+        db.session.commit()
+
+        flash('Your details have been updated successfully', 'success')
+        return redirect(url_for('edit_user', uid=uid))
+        # return redirect(url_for('/admin/users', uid=uid))
+        
+
+    # Get user data from database and render form
+    # user = Users.query.filter_by(uid=uid).first()
+    return render_template('edituser.html', uid=uid)
 
 
 @app.route('/admin/products')
@@ -490,7 +516,6 @@ def adminbidders():
 def admincontacts():
     admin_contacts = db.engine.execute(f"SELECT * FROM `contacts`;")
     return render_template('contact-admin.html', contacts=admin_contacts)
-
 
 @app.route('/admin/viewproduct/<int:pid>')
 def viewproducts(pid):
