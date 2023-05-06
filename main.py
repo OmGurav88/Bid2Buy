@@ -219,7 +219,7 @@ def login():
             session['username'] = user.uname
             return redirect(url_for('buyer'))
         
-        
+        flash('Username or Password Incorrect.', 'warning')
         return render_template('login.html')
 
 
@@ -303,6 +303,7 @@ def adminlogin():
         admin1_pass="om123"
         admin2="prayog"
         admin2_pass="prayog123"
+        flag=0
         if (username==admin1 and password==admin1_pass) :
             flag=1
         if (username==admin2 and password==admin2_pass ) :
@@ -311,7 +312,8 @@ def adminlogin():
         if flag:
             return redirect(url_for('adminhome'))
         
-        
+        flash('Username or Password Incorrect.', 'danger')
+        flash('Please Contact Admin.', 'warning')
         return render_template('adminlogin.html')
 
 
@@ -535,7 +537,7 @@ def viewproducts(pid):
 @app.route('/productonbid/<int:uid>')
 def view_productOnBid(uid):
     productOnBid = db.session.execute(f"SELECT * FROM `products` WHERE uid=:uid;", {'uid': uid})
-    return render_template('productonbid.html',bidders=productOnBid,id=uid)
+    return render_template('productonbid.html',product=productOnBid,id=uid)
 
 
 

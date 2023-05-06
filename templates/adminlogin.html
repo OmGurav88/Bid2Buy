@@ -241,6 +241,13 @@
             letter-spacing: -10px;
             margin-bottom: 0;
         }
+        .alert {
+        background-color: #0d0d0d;
+        color: #c1d50d;
+        padding: 0.01rem;
+        border-radius: 0.25rem;
+        margin-bottom: 0.01rem;
+}
     </style>
 </head>
 
@@ -275,7 +282,15 @@
             <div>
                 <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
             </div>
-           
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert">
+                <!-- {% for message in messages %} -->
+                <p>{{ message }}</p>
+                <!-- {% endfor %} -->
+            </div>
+            {% endif %}
+            {% endwith %}
             <h3 class="text-whitesmoke">Admin Log In</h3>
             <div class="container-content">
                 <form class="margin-t" action="/AdminLogin" method='POST' >

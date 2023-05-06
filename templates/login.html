@@ -241,6 +241,15 @@
             letter-spacing: -10px;
             margin-bottom: 0;
         }
+        .alert {
+        margin-top: 70px;
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        
+        text-align: center;
+}
     </style>
 </head>
 
@@ -280,6 +289,16 @@
     
             </div> -->
         <!-- </nav> -->
+          
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert">
+      <!-- {% for message in messages %} -->
+      <p>{{ message }}</p>
+      <!-- {% endfor %} -->
+  </div>
+  {% endif %}
+  {% endwith %}
         <div class="login-container text-c animated flipInX">
             <div>
                 <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
