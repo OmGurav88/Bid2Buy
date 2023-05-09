@@ -208,14 +208,13 @@ def login():
     if(request.method == 'POST'):
         username  = request.form.get('username')
         password = request.form.get('password')
-        # print(username,password)
+   
         user = Users.query.filter_by(uname=username).first()
+        user_pass = Users.query.filter_by(upass=password).first()
         # To add user in database
         userDB=Loginusers(username=username,password=password)
-        # db.session.add(userDB)
-        # db.session.commit()
 
-        if user:
+        if user and user_pass:
             session['username'] = user.uname
             return redirect(url_for('buyer'))
         
