@@ -233,78 +233,11 @@ li a i {
       <p>Product Category:<b>{{product.pcategory}}</b> </p>
       <hr>
       <p>Description: {{ product.pdesc }}</p><hr>
-      <!-- /<p><strong>Brand:</strong> {{ product.pbrand }}</p> -->
-      <p>Base Price : <span id="product-price">₹{{ product.pprice }}</span></p><hr>
-      <p>Current Highest Bid: <span id="product-price">₹{{ curr_bid }}</span></p><hr>
-      
-      <!-- <p><strong>Features:</strong></p> -->
-      <h1>Bid Ends in <span id="countdown"></span></h1><hr>
-      <form action="/product/{{product.pid}}" method="post" >
-        
-      <div class="form-group" style="margin-right: 100px;">
-        <label for="basePrice" name="bid" id="biddedprice" >Enter Bid Price:</label>
-        <input required style="height: 30px; width: 200px;" type="number" class="form-control" id="biddedPrice" required size="100" name="bid" required>
-        
-
-        
-      
-      <hr>
-      <div class="text-center">
-        <button type="submit" id="bid_button" class="btn colorful-btn" onclick="check()" >Submit</button>
-      </div>  
-      </form>
+      <p>Current Highest Bid: ₹{{ product.pbid }}</p><hr>
+      <p>Your Bidded Price: ₹{{ product.pbid }}</p><hr>
       
 
-      <script>
-        
-       function check(){
-        var bid = document.getElementById("biddedPrice").value;
-          var base_price = '{{ curr_bid }}';
-           if(bid < base_price){
-             alert("Please Enter Price Greater than Current Bid Price");
-           }
-           else{
-              // confirm('Are you sure to Bid This Product?');
-              var confirmed = confirm('Are you sure to Bid This Product?');
-        if(confirmed){
-            // user clicked OK
-            return true;
-        } else {
-            // user clicked Cancel
-            return false;
-        }
-           }
-       }
-        
-    var saleEndTime = new Date('{{ product.pclosing.strftime("%Y-%m-%d %H:%M:%S") }}');
-
-		// Update the countdown timer every second
-		setInterval(function() {
-			// Get the current time
-			var now = new Date();
-
-			// Calculate the time remaining in seconds
-			var timeRemaining = (saleEndTime.getTime() - now.getTime()) / 1000;
-
-			// Calculate the hours, minutes, and seconds remaining
-			var hoursRemaining = Math.floor(timeRemaining / 3600);
-			var minutesRemaining = Math.floor((timeRemaining % 3600) / 60);
-			var secondsRemaining = Math.floor(timeRemaining % 60);
-
-			// Update the countdown timer
-      if(hoursRemaining >=0 && minutesRemaining >= 0 && secondsRemaining >= 0){
-			  document.getElementById('countdown').innerHTML = hoursRemaining + ' hrs, ' + minutesRemaining + ' min, ' + secondsRemaining + ' sec' + " Hurry UP!!";
-        
-		  }
-      else{
-        document.getElementById('countdown').innerHTML = "0" + ' hrs, ' + "0" + ' min, ' + "0" + ' sec' ;
-        // document.getElementById('countdown').innerHTML = "  :Expired!";
-        document.getElementById('bid_button').disabled = true;
-      }
-    }, 1000);
-
-   
-      </script>
+      
 
 
     </div>

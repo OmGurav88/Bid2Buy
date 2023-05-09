@@ -191,11 +191,12 @@ def buyer():
     # session['user_id'] = current_user.id
     # id=session.get('user_id')
     #current_userId=session.get('id')
-    query=db.engine.execute(f"SELECT * FROM `products` order by pclosing desc;")
+    query1=db.engine.execute(f"SELECT * FROM `products` WHERE pclosing-Now()>0 order by pclosing desc;")
+    query2=db.engine.execute(f"SELECT * FROM `products` WHERE pclosing-Now()<0 order by pclosing desc;")
     user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
     user_id = user[0]
 
-    return render_template('samplehome.html',products = query,name2=current_user,id=user_id,)
+    return render_template('samplehome.html',active = query1,outdated=query2,name2=current_user,id=user_id,)
 
 
 @app.route('/about.html')
@@ -621,6 +622,13 @@ def get_image(id):
     
     name=db.session.execute("SELECT * FROM `image` WHERE id=:id;", {'id': id}).fetchone()
     return render_template('sorry.html', image=name )
+
+
+@app.route('/productpayment/<int:pid>', methods = [ 'GET' , 'POST'])
+def product_payment(pid): 
+    product = db.session.execute(f"SELECT * FROM `products` WHERE pid=:pid;", {'pid': pid}).fetchone()   
+
+    return render_template('productpayment.html',uid=pid,product=product)
     
     
 ################################################################
