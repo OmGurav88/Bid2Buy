@@ -274,8 +274,8 @@
                     <div class="notificatio isdanger">{{ messages[0] }}</div>
                 {% endif %} 
                 {% endwith %} 
-                
-                <form class="margin-t" action="/signup.html" method="post" onsubmit="return confirm('Are you sure you want to SignUp With Us?');">
+                <!-- onsubmit="return confirm('Are you sure you want to SignUp With Us?');" -->
+                <form class="margin-t" action="/signup.html" method="post" >
                     <div class="form-group">
                         <label class="text-whitesmoke" for="username" float:left><b>Enter Username</b></label>
                         <input type="text" name="user_name" class="form-control" placeholder="Username" required="">
@@ -307,9 +307,11 @@
                     <p class="text-whitesmoke" color: 255>By creating an account you agree to our <a href="#" style="color:white">Terms &
                             Privacy</a>.</p>
                     <!-- <a href="login.html"></a><button type="submit" class="registerbtn">Register</button></a> -->
-                    <button type="submit" class="btn btn-primary " id="submitButton">Register</button>
+                    <!-- action="/otp_page" -->
+                    <button type="submit" class="btn btn-primary"  name="verify_email_btn" value="1">Verify Email</button>
+                    <!-- Previous code for button below-->
+                    <!-- <button type="submit" class="btn btn-primary " id="submitButton">Verify</button> -->
                     <br>
-                    <!-- <a class="text-darkyellow" href="login.html" ><small>Login</small></a> -->
 
 
                 </form>

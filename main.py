@@ -10,10 +10,13 @@ import json
 import os
 from werkzeug.utils import secure_filename
 from PIL import Image
+import random
+import string
+from flask import render_template, request, flash, redirect, url_for
+import sendgrid
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
-# from flask_mail import Mail
-
-# USE FOR USING DATABASE
 db = SQLAlchemy()
 local_server = True
 with open('config.json', 'r') as con:
@@ -30,7 +33,7 @@ else:
 # START THE DATABASE
 db.init_app(app)
 
-# DEFINING THE DATABASE MODELS
+
 
 
 class Loginusers(db.Model):
@@ -43,17 +46,6 @@ class Loginusers(db.Model):
     def check_password(self, password):
         if(self.password==password):
             return 1
-        
-# class LoginAdmin(db.Model):
-#     login_id=db.Column(db.Integer,primary_key=True)
-#     username=db.Column(db.String(50), nullable = False)
-#     password=db.Column(db.String(50), nullable = False)
-#     def set_password(self, password):
-#         self.password = password
-
-#     def check_password(self, password):
-#         if(self.password==password):
-#             return 1
         
 class Contacts(db.Model):
     contact_id=db.Column(db.Integer,primary_key=True)
@@ -77,16 +69,6 @@ class Products(db.Model):
     pbid=db.Column(db.Integer , nullable = False)
     pimageName = db.Column(db.String(50), nullable=False)
 
-    # def __init__(self, p_category, p_name, p_price, p_desc, p_closing, p_started, ptimer):
-    #     self.p_category = p_category
-    #     self.p_name = p_name
-    #     self.p_price = p_price
-    #     self.p_desc = p_desc
-    #     self.p_closing = p_closing
-    #     self.p_started = p_started
-    #     self.ptimer = datetime.strptime(ptimer, '%H:%M:%S').time()
-
-
 
 class Users(db.Model):
     uid=db.Column(db.Integer,primary_key=True)
@@ -96,16 +78,8 @@ class Users(db.Model):
     upass=db.Column(db.String(20),nullable = False)
     ucnfpass=db.Column(db.String(20), nullable = False)
     ucity=db.Column(db.String(20), nullable = False)
-
-
-
-# class Admins(db.Model):
-#     admin_id=db.Column(db.Integer,primary_key=True)
-#     admin_name=db.Column(db.String(20), nullable = False)
-#     admin_no=db.Column(db.Integer,nullable=False)
-#     admin_email=db.Column(db.String(20), nullable = False)
-#     admin_pass=db.Column(db.String(20),nullable = False)
-#     admin_cnfm_pass=db.Column(db.String(20), nullable = False)
+    otp = db.Column(db.String(6), nullable=True)  # OTP field for verification
+    verified = db.Column(db.Boolean, default=False)  # Account verification status
 
 class Bidders(db.Model):
     bid=db.Column(db.Integer,primary_key=True)
@@ -118,8 +92,6 @@ class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(50), nullable=False)
     
-
-
 @app.route('/')
 def base_index():
     return render_template('index.html')
@@ -247,10 +219,19 @@ def contact():
 def post():
     return render_template('post.html')
 
-@app.route('/signup.html', methods = ['GET','POST'])
+# Generate a random OTP
+def generate_otp(length=6):
+    digits = string.digits
+    return ''.join(random.choice(digits) for _ in range(length))
+
+# Generate a random verification token
+def generate_verification_token(length=10):
+    letters_and_digits = string.ascii_letters + string.digits
+    return ''.join(random.choice(letters_and_digits) for _ in range(length))
+
+@app.route('/signup.html', methods=['GET', 'POST'])
 def signup():
-    if(request.method == 'POST'):
-        
+    if request.method == 'POST':
         uname_db = request.form.get('user_name')
         unumber_db = request.form.get('user_phone')
         umail_db = request.form.get('user_email')
@@ -258,24 +239,97 @@ def signup():
         upass_db = request.form.get('password')
         ucnfpass_db = request.form.get('cnfPassword')
 
-        entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db , ucity = ucity_db)
-
-        # Check if the email already exists in the database
-        # Query the database for a user with a specific email address
         user = Users.query.filter_by(uname=uname_db).first()
-        print(user)
         if user:
-            flash('Username already exists in the database')
-            print("user exists")
-            return render_template('signup.html')
-        else :
-            db.session.add(entry)
-            db.session.commit()
-            flash("Signup Success Please Login","success")
+            flash('Username already exists in the database', 'error')
             return render_template('signup.html')
 
+        # # Generate verification token and OTP
+        # verification_token = generate_verification_token()
+        otp = generate_otp()
+            
+        # Save the verification token, OTP, and user details in the session
+        # session['verification_token'] = verification_token
+        session['otp'] = otp
+        session['user_data'] = {
+            'uname': uname_db,
+            'unumber': unumber_db,
+            'umail': umail_db,
+            'upass': upass_db,
+            'ucnfpass': ucnfpass_db,
+            'ucity': ucity_db
+        }
+
+        # Send email verification
+        # verification_link = request.host_url + 'verify_email?token=' + verification_token
+        message = Mail(
+            from_email='guravom999@gmail.com',
+            to_emails=umail_db,
+            subject='Email Verification',
+            plain_text_content='Your OTP is: ' + otp
+        )
+        try:
+            sg = SendGridAPIClient(os.environ.get('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'))
+            # sg = SendGridAPIClient(api_key='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')
+            response = sg.send(message)
+            flash('Verification email sent! Please check your inbox.', 'success')
+            return render_template('verifyemail.html')
+        except Exception as e:
+            flash('Error sending verification email: {}'.format(str(e)), 'error')
+            print('Exception:', str(e))
+
+            
+
+        
+        # if request.form.get('verify_email_btn'):
+        #     return render_template('verifyemail.html', umail=umail_db)
+        # else:
+        #     return redirect(url_for('signup'))
 
     return render_template('signup.html')
+
+
+@app.route('/otp_page')
+def otp_page():
+    return render_template('verifyemail.html')
+
+
+@app.route('/verify_email', methods=['GET', 'POST'])
+def verify_email():
+    if request.method == 'POST':
+        entered_otp = request.form.get('otp')
+
+        if entered_otp == session.get('otp'):
+            # Retrieve user data from session
+            user_data = session.get('user_data')
+
+            # Save the user data to the database
+            entry = Users(
+                uname=user_data['uname'],
+                unumber=user_data['unumber'],
+                umail=user_data['umail'],
+                upass=user_data['upass'],
+                ucnfpass=user_data['ucnfpass'],
+                ucity=user_data['ucity'],
+                verification_token=session.get('verification_token'),
+                otp=session.get('otp')
+            )
+            db.session.add(entry)
+            db.session.commit()
+
+            # Clear the session data
+            session.pop('verification_token')
+            session.pop('otp')
+            session.pop('user_data')
+
+            flash('Email verified! Please proceed with login.', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Invalid OTP. Please try again.', 'error')
+
+    return render_template('signup.html', umail=session.get('user_data').get('umail'))
+
+
 
 @app.route('/wologin.html')
 def wologin():
