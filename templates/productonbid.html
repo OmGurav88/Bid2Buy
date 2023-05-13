@@ -244,6 +244,10 @@
   width: 100px;
   border: 2px red auto;
 }
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
   </style>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
@@ -259,21 +263,21 @@
 
     <nav class="nav">
       <ul>
-        <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
-        <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
-        <li>
+        <li><a href="/buyer"{% if current_page == 'buyer' %} class="active"{% endif %}><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+        <li><a href="/seller.html"{% if current_page == 'seller' %} class="active"{% endif %}><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+        
           
               
-              <li><a href="/winproduct/{{id}}"><i class="fa fa-tasks"></i>  Win Product </a></li>
-        <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i>On Bid Products</a></li>
-            <li> <a href="/myproduct/{{id}}"><i class="fa fa-tasks"></i>  My Products </a></li>
+              <li><a href="/winproduct/{{id}}"{% if current_page == 'winproduct' %} class="active"{% endif %}><i class="fa fa-tasks"></i>  Win Product </a></li>
+        <li><a href="/productonbid/{{id}}"{% if current_page == 'productonbid' %} class="active"{% endif %}><i class="fa fa-tasks"></i>On Bid Products</a></li>
+            <li> <a href="/myproduct/{{id}}"{% if current_page == 'myproduct' %} class="active"{% endif %}><i class="fa fa-tasks"></i>  My Products </a></li>
           
 
-        </li>
+        
         
           
 
-        <li><a href="/myprofile/{{id}}"><i class="fa fa-user"></i> My Profile</a></li>
+        <li><a href="/myprofile/{{id}}"{% if current_page == 'myprofile' %} class="active"{% endif %}><i class="fa fa-user"></i> My Profile</a></li>
         <li><a href="login"> <i class="fas fa-power-off"></i> Logout</a></li>
         
 

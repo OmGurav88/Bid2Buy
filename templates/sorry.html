@@ -1,14 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>View Image</title>
-</head>
-<body>
-	<h1>View Image</h1>
-	{% if image %}
-		<img src="{{ url_for('static', filename='images/' + image.filename) }}" alt="Uploaded Image">
-	{% else %}
-		<p>No image found</p>
-	{% endif %}
-</body>
-</html>
+<style>
+	nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Style the active class */
+nav li.active {
+  background-color: #4CAF50;
+}
+
+</style>
+
+<nav>
+	<ul>
+	  <li><a href="#">Home</a></li>
+	  <li class="active"><a href="#">About</a></li>
+	  <li><a href="#">Contact</a></li>
+	</ul>
+  </nav>
+  

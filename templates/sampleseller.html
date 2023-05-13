@@ -231,7 +231,10 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
         
         text-align: center;
 }
-
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
 
   </style>
 </head>
@@ -239,12 +242,22 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
   <!-- Navigation Bar -->
   <nav class="nav">
     <ul>
-      <li><a href="/buyer"><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
-      <li><a href="/seller.html"><i class="fa fa-plus"></i> Add Product to Bid</a></li>
-      <li><a href="/myproduct/{{user_id}}"><i class="fa fa-tasks"></i> My Products</a></li>
-      <li><a href="/productonbid/{{user_id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
-      <li><a href="/myprofile/{{user_id}}"><i class="fa fa-user"></i> My Profile</a></li>
-      <li><a href="login">  <i class="fas fa-power-off"></i> Logout</a></li>
+      <li><a href="/buyer"{% if current_page == 'buyer' %} class="active"{% endif %}><i class="fa fa-circle-o-notch"></i> Bid2Buy</a></li>
+      <li><a href="/seller.html"{% if current_page == 'seller' %} class="active"{% endif %}><i class="fa fa-plus"></i> Add Product to Bid</a></li>
+      
+        
+            
+            <li><a href="/winproduct/{{id}}"{% if current_page == 'winproduct' %} class="active"{% endif %}><i class="fa fa-tasks"></i>  Win Product </a></li>
+      <li><a href="/productonbid/{{id}}"{% if current_page == 'productonbid' %} class="active"{% endif %}><i class="fa fa-tasks"></i>On Bid Products</a></li>
+          <li> <a href="/myproduct/{{id}}"{% if current_page == 'myproduct' %} class="active"{% endif %}><i class="fa fa-tasks"></i>  My Products </a></li>
+        
+
+      
+      
+        
+
+      <li><a href="/myprofile/{{id}}"{% if current_page == 'myprofile' %} class="active"{% endif %}><i class="fa fa-user"></i> My Profile</a></li>
+      <li><a href="login"> <i class="fas fa-power-off"></i> Logout</a></li>
     </ul>
   </nav>
   
@@ -285,9 +298,15 @@ box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
                 <textarea class="form-control" id="description" name="msg" rows="3" required></textarea>
               </div>
               <div class="form-floating">
+                <p>Enter Bid Starting time </p>
+                <label for="datetime">Date/Time:</label>
+                <input type="datetime-local" id="datetime" name="startingdatetime"><br>
+                <div class="invalid-feedback" data-sb-feedback="time:required">A Time is required.</div>
+            </div>
+              <div class="form-floating">
                 <p>Enter Bid Ending time </p>
                 <label for="datetime">Date/Time:</label>
-                <input type="datetime-local" id="datetime" name="datetime"><br>
+                <input type="datetime-local" id="datetime" name="endingdatetime"><br>
                 <div class="invalid-feedback" data-sb-feedback="time:required">A Time is required.</div>
             </div>
               

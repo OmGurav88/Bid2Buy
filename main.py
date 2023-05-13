@@ -13,9 +13,7 @@ from PIL import Image
 import random
 import string
 from flask import render_template, request, flash, redirect, url_for
-import sendgrid
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+
 
 db = SQLAlchemy()
 local_server = True
@@ -78,8 +76,7 @@ class Users(db.Model):
     upass=db.Column(db.String(20),nullable = False)
     ucnfpass=db.Column(db.String(20), nullable = False)
     ucity=db.Column(db.String(20), nullable = False)
-    otp = db.Column(db.String(6), nullable=True)  # OTP field for verification
-    verified = db.Column(db.Boolean, default=False)  # Account verification status
+    
 
 class Bidders(db.Model):
     bid=db.Column(db.Integer,primary_key=True)
@@ -123,20 +120,14 @@ def seller():
         pname_db = request.form.get('productName')
         pprice_db = request.form.get('price')
         pdesc_db = request.form.get('msg')
-        pclosing_db = request.form.get('datetime')
+        pstarted_db = request.form.get('startingdatetime')
+        pclosing_db = request.form.get('endingdatetime')
         uid_db = user_id
         pbid_db = request.form.get('price')
         
         
        
-       # Get bidding duration
-        # hours = request.form.get('hours')
-        # minutes = request.form.get('minutes')
-        # seconds = request.form.get('seconds')
-        # ptimer_db = f"{hours}:{minutes}:{seconds}"
-        # pstarted = datetime.now()
-        # print("********************* timer values checking ******************")
-        # print(ptimer_db)
+       
         file = request.files['file']
         filename = file.filename
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -145,7 +136,7 @@ def seller():
         
 
         # Add to the Database
-        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now(),uid=uid_db,pbid=pbid_db,pimageName=filename)
+        entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = pstarted_db,uid=uid_db,pbid=pbid_db,pimageName=filename)
         # entry = Products(pcategory = pcategory_db , pname = pname_db , pprice = pprice_db , pdesc = pdesc_db , pclosing = pclosing_db ,pstarted = datetime.now())
         # entry = Products(pcategory_db ,pname_db , pprice_db ,pdesc_db , pclosing_db , pstarted, ptimer_db)
 
@@ -154,7 +145,7 @@ def seller():
         db.session.commit()
         flash('Your Product added Successfully!!')
 
-    return render_template('sampleseller.html',user_id=user_id)
+    return render_template('sampleseller.html',user_id=user_id,current_page='seller',id=user_id)
 
 @app.route('/buyer')
 def buyer():
@@ -163,12 +154,14 @@ def buyer():
     # session['user_id'] = current_user.id
     # id=session.get('user_id')
     #current_userId=session.get('id')
-    query1=db.engine.execute(f"SELECT * FROM `products` WHERE pclosing-Now()>0 order by pclosing desc;")
+    query1=db.engine.execute(f"SELECT * FROM `products` WHERE pclosing-Now()>0 AND pstarted-Now()<0 order by pclosing desc;")
     query2=db.engine.execute(f"SELECT * FROM `products` WHERE pclosing-Now()<0 order by pclosing desc;")
+    query3=db.engine.execute(f"SELECT * FROM `products` WHERE pstarted-Now()>0 order by pclosing desc;")
     user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
     user_id = user[0]
 
-    return render_template('samplehome.html',active = query1,outdated=query2,name2=current_user,id=user_id,)
+
+    return render_template('samplehome.html',active = query1,outdated=query2,future=query3,name2=current_user,id=user_id,current_page='buyer')
 
 
 @app.route('/about.html')
@@ -219,19 +212,15 @@ def contact():
 def post():
     return render_template('post.html')
 
-# Generate a random OTP
-def generate_otp(length=6):
-    digits = string.digits
-    return ''.join(random.choice(digits) for _ in range(length))
 
-# Generate a random verification token
-def generate_verification_token(length=10):
-    letters_and_digits = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters_and_digits) for _ in range(length))
 
-@app.route('/signup.html', methods=['GET', 'POST'])
+
+
+
+@app.route('/signup.html', methods = ['GET','POST'])
 def signup():
-    if request.method == 'POST':
+    if(request.method == 'POST'):
+        
         uname_db = request.form.get('user_name')
         unumber_db = request.form.get('user_phone')
         umail_db = request.form.get('user_email')
@@ -239,95 +228,28 @@ def signup():
         upass_db = request.form.get('password')
         ucnfpass_db = request.form.get('cnfPassword')
 
+        entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db , ucity = ucity_db)
+
+        # Check if the email already exists in the database
+        # Query the database for a user with a specific email address
         user = Users.query.filter_by(uname=uname_db).first()
+        print(user)
         if user:
-            flash('Username already exists in the database', 'error')
+            flash('Username already exists in the database')
+            print("user exists")
+            return render_template('signup.html')
+        else :
+            db.session.add(entry)
+            db.session.commit()
+            flash("Signup Success Please Login","success")
             return render_template('signup.html')
 
-        # # Generate verification token and OTP
-        # verification_token = generate_verification_token()
-        otp = generate_otp()
-            
-        # Save the verification token, OTP, and user details in the session
-        # session['verification_token'] = verification_token
-        session['otp'] = otp
-        session['user_data'] = {
-            'uname': uname_db,
-            'unumber': unumber_db,
-            'umail': umail_db,
-            'upass': upass_db,
-            'ucnfpass': ucnfpass_db,
-            'ucity': ucity_db
-        }
-
-        # Send email verification
-        # verification_link = request.host_url + 'verify_email?token=' + verification_token
-        message = Mail(
-            from_email='guravom999@gmail.com',
-            to_emails=umail_db,
-            subject='Email Verification',
-            plain_text_content='Your OTP is: ' + otp
-        )
-        try:
-            sg = SendGridAPIClient(os.environ.get('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'))
-            # sg = SendGridAPIClient(api_key='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')
-            response = sg.send(message)
-            flash('Verification email sent! Please check your inbox.', 'success')
-            return render_template('verifyemail.html')
-        except Exception as e:
-            flash('Error sending verification email: {}'.format(str(e)), 'error')
-            print('Exception:', str(e))
-
-            
-
-        
-        # if request.form.get('verify_email_btn'):
-        #     return render_template('verifyemail.html', umail=umail_db)
-        # else:
-        #     return redirect(url_for('signup'))
 
     return render_template('signup.html')
 
 
-@app.route('/otp_page')
-def otp_page():
-    return render_template('verifyemail.html')
 
 
-@app.route('/verify_email', methods=['GET', 'POST'])
-def verify_email():
-    if request.method == 'POST':
-        entered_otp = request.form.get('otp')
-
-        if entered_otp == session.get('otp'):
-            # Retrieve user data from session
-            user_data = session.get('user_data')
-
-            # Save the user data to the database
-            entry = Users(
-                uname=user_data['uname'],
-                unumber=user_data['unumber'],
-                umail=user_data['umail'],
-                upass=user_data['upass'],
-                ucnfpass=user_data['ucnfpass'],
-                ucity=user_data['ucity'],
-                verification_token=session.get('verification_token'),
-                otp=session.get('otp')
-            )
-            db.session.add(entry)
-            db.session.commit()
-
-            # Clear the session data
-            session.pop('verification_token')
-            session.pop('otp')
-            session.pop('user_data')
-
-            flash('Email verified! Please proceed with login.', 'success')
-            return redirect(url_for('login'))
-        else:
-            flash('Invalid OTP. Please try again.', 'error')
-
-    return render_template('signup.html', umail=session.get('user_data').get('umail'))
 
 
 
@@ -452,7 +374,7 @@ def my_products(uid):
 
     
     
-    return render_template('myproduct.html', bidders=my_product )
+    return render_template('myproduct.html', bidders=my_product,current_page='myproduct',id=uid )
     
 @app.route('/admin')
 def admin():
@@ -469,7 +391,7 @@ def my_profile(uid):
     print(my_Profile.uname)
         
     
-    return render_template('myprofile.html',profile=my_Profile)
+    return render_template('myprofile.html',profile=my_Profile,uid=uid,current_page='myprofile')
 
 
 
@@ -591,7 +513,7 @@ def viewproducts(pid):
 @app.route('/productonbid/<int:uid>')
 def view_productOnBid(uid):
     productOnBid = db.session.execute(f"SELECT * FROM `products` WHERE uid=:uid;", {'uid': uid})
-    return render_template('productonbid.html',product=productOnBid,id=uid)
+    return render_template('productonbid.html',product=productOnBid,id=uid,current_page='productonbid')
 
 
 
@@ -645,7 +567,7 @@ def win_products(uid):
     #print(my_product1[0])
     
     
-    return render_template('winproduct.html', bidders=my_product )
+    return render_template('winproduct.html', bidders=my_product,current_page='winproduct',id=uid )
 
 
 
@@ -671,11 +593,11 @@ def upload():
 
 
 
-@app.route('/get_image/<int:id>')
-def get_image(id):
+@app.route('/get_image')
+def getimage():
     
-    name=db.session.execute("SELECT * FROM `image` WHERE id=:id;", {'id': id}).fetchone()
-    return render_template('sorry.html', image=name )
+    # name=db.session.execute("SELECT * FROM `image` WHERE id=:id;", {'id': id}).fetchone()
+    return render_template('sorry.html')
 
 
 @app.route('/productpayment/<int:pid>', methods = [ 'GET' , 'POST'])
@@ -686,6 +608,16 @@ def product_payment(pid):
     
     
 ################################################################
+
+@app.route('/search')
+def search():
+    query = request.args.get('q')
+    # TODO: Implement search logic using the query parameter
+    query = f"SELECT * FROM products WHERE name LIKE '%{query}%'"
+    results = db.session.execute(query)
+    products = [dict(p) for p in results]
+    return render_template('searchresults.html', query=query)
+
 
 
 
