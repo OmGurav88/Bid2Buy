@@ -269,11 +269,7 @@
             <h3 class="text-whitesmoke">User Sign Up</h3>
             <p >Please fill in this form to create an account.</p>
             <div class="container-content">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %} 
-                    <div class="notificatio isdanger">{{ messages[0] }}</div>
-                {% endif %} 
-                {% endwith %} 
+                
                 <!-- onsubmit="return confirm('Are you sure you want to SignUp With Us?');" -->
                 <form class="margin-t" action="/signup.html" method="post" >
                     <div class="form-group">
@@ -287,7 +283,7 @@
                     </div>
                     <div class="form-group">
                         <label class="text-whitesmoke" for="email"><b>Enter Email</b></label>
-                        <input type="text" name="user_email" class="form-control" placeholder="Enter Email" required="">
+                        <input type="text" name="user_email" class="form-control" id="email" placeholder="Enter Email" required="">
                     </div>
                     <div class="form-group">
                         <label class="text-whitesmoke" for="city" float:left><b>Enter Your City</b></label>
@@ -306,11 +302,9 @@
 
                     <p class="text-whitesmoke" color: 255>By creating an account you agree to our <a href="#" style="color:white">Terms &
                             Privacy</a>.</p>
-                    <!-- <a href="login.html"></a><button type="submit" class="registerbtn">Register</button></a> -->
-                    <!-- action="/otp_page" -->
-                    <button type="submit" class="btn btn-primary"  name="verify_email_btn" value="1">Verify Email</button>
-                    <!-- Previous code for button below-->
-                    <!-- <button type="submit" class="btn btn-primary " id="submitButton">Verify</button> -->
+                    
+                    <button type="submit" class="btn btn-primary" id="submit" name="verify_email_btn" value="1">Sign up</button>
+                    
                     <br>
 
 

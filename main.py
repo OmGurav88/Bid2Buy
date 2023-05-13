@@ -13,7 +13,7 @@ from PIL import Image
 import random
 import string
 from flask import render_template, request, flash, redirect, url_for
-
+import re
 
 db = SQLAlchemy()
 local_server = True
@@ -30,8 +30,6 @@ else:
     app.config["SQLALCHEMY_DATABASE_URI"] = parameters['prod_uri']
 # START THE DATABASE
 db.init_app(app)
-
-
 
 
 class Loginusers(db.Model):
@@ -110,12 +108,7 @@ def seller():
     user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
     user_id = user[0]
     if(request.method == 'POST'):
-        # Add Entry TO Database
-        # contact_no , name, email, pNumber, message, dt 
-        # the first name is entry in the database and another name is for Html page 
-        # current_user=session.get('username')
-        # user = db.session.execute(f"SELECT uid FROM `users` WHERE uname=:name;", {'name': current_user}).fetchone()
-        # user_id = user[0]
+      
         pcategory_db  = request.form.get('category')
         pname_db = request.form.get('productName')
         pprice_db = request.form.get('price')
@@ -212,10 +205,17 @@ def contact():
 def post():
     return render_template('post.html')
 
+def is_valid_email(email):
+    pattern = r'[^@]+@[^@]+\.[^@]+'  # Regular expression pattern to validate email
+    return re.match(pattern, email) is not None
 
+def is_valid_password(password):
+    pattern = r'^(?=.*[A-Za-z])(?=.*\d).{8,}$'  # Regular expression pattern to validate password
+    return re.match(pattern, password) is not None
 
-
-
+def is_valid_mobile_number(number):
+    pattern = r'^\d{10}$'
+    return re.match(pattern, number) is not None
 
 @app.route('/signup.html', methods = ['GET','POST'])
 def signup():
@@ -230,27 +230,33 @@ def signup():
 
         entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db , ucity = ucity_db)
 
-        # Check if the email already exists in the database
-        # Query the database for a user with a specific email address
+        
         user = Users.query.filter_by(uname=uname_db).first()
-        print(user)
         if user:
             flash('Username already exists in the database')
             print("user exists")
             return render_template('signup.html')
-        else :
-            db.session.add(entry)
-            db.session.commit()
-            flash("Signup Success Please Login","success")
+
+        if not is_valid_mobile_number(unumber_db):
+            flash('Invalid Mobile number')
             return render_template('signup.html')
+        
+        if not is_valid_email(umail_db):
+            flash('Invalid email address')
+            return render_template('signup.html')
+
+        # Validate password
+        if not is_valid_password(upass_db):
+            flash('Password should contain atleast one uppercase/lowercase ,atleast one digit, minimum length of 6 characters.')
+            return render_template('signup.html')
+ 
+        db.session.add(entry)
+        db.session.commit()
+        flash("Signup Success Please Login","success")
+        return render_template('signup.html')
 
 
     return render_template('signup.html')
-
-
-
-
-
 
 
 @app.route('/wologin.html')
@@ -392,8 +398,6 @@ def my_profile(uid):
         
     
     return render_template('myprofile.html',profile=my_Profile,uid=uid,current_page='myprofile')
-
-
 
 @app.route('/editprofile/<int:uid>', methods = [ 'GET' , 'POST'])
 def edit_profile(uid): 
