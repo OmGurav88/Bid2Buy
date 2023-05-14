@@ -266,13 +266,15 @@ li a i {
            if( bid < base_price  ){
              alert("Please Enter Price Greater than Current Bid Price");
            }
-           if (bid === "" ) {
+          else if (bid === "" ) {
               alert("Please enter a bid price.");
               return false;
             }
            else{
               // confirm('Are you sure to Bid This Product?');
               var confirmed = confirm('Are you sure to Bid This Product?');
+           }
+           
         if(confirmed){
             // user clicked OK
             return true;
@@ -280,7 +282,7 @@ li a i {
             // user clicked Cancel
             return false;
         }
-           }
+           
        }
         
     var saleEndTime = new Date('{{ product.pclosing.strftime("%Y-%m-%d %H:%M:%S") }}');

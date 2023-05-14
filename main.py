@@ -14,6 +14,9 @@ import random
 import string
 from flask import render_template, request, flash, redirect, url_for
 import re
+import qrcode
+
+
 
 db = SQLAlchemy()
 local_server = True
@@ -69,7 +72,7 @@ class Products(db.Model):
 class Users(db.Model):
     uid=db.Column(db.Integer,primary_key=True)
     uname=db.Column(db.String(20), nullable = False)
-    unumber=db.Column(db.Integer,nullable=False)
+    unumber=db.Column(db.String(20),nullable=False)
     umail=db.Column(db.String(20), nullable = False)
     upass=db.Column(db.String(20),nullable = False)
     ucnfpass=db.Column(db.String(20), nullable = False)
@@ -86,6 +89,14 @@ class Bidders(db.Model):
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(50), nullable=False)
+
+
+def generate_qr(price):
+    qr = qrcode.QRCode(version=1, box_size=10, border=5)
+    qr.add_data(f'Price: {price}')
+    qr.make(fit=True)
+    img = qr.make_image(fill_color='black', back_color='white')
+    return img
     
 @app.route('/')
 def base_index():
@@ -235,6 +246,12 @@ def signup():
         if user:
             flash('Username already exists in the database')
             print("user exists")
+            return render_template('signup.html')
+        
+        email = Users.query.filter_by(umail=umail_db).first()
+        if email:
+            flash('Eamil already exists in the database')
+            print("Email exists")
             return render_template('signup.html')
 
         if not is_valid_mobile_number(unumber_db):
@@ -622,6 +639,13 @@ def search():
     products = [dict(p) for p in results]
     return render_template('searchresults.html', query=query)
 
+
+@app.route('/generate_qr/<int:pid>/<int:price>')
+def generate_qr_route(pid,price):
+    img = generate_qr(price)
+    img.save('qr.png')
+    
+    return send_file('qr.png', mimetype='image/png')
 
 
 
