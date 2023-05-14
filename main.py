@@ -14,9 +14,13 @@ import random
 import string
 from flask import render_template, request, flash, redirect, url_for
 import re
+<<<<<<< Updated upstream
 import qrcode
 
 
+=======
+import hashlib
+>>>>>>> Stashed changes
 
 db = SQLAlchemy()
 local_server = True
@@ -238,9 +242,15 @@ def signup():
         ucity_db = request.form.get('user_city')
         upass_db = request.form.get('password')
         ucnfpass_db = request.form.get('cnfPassword')
+        
+        if upass_db!=ucnfpass_db :
+            flash('Please enter same password')
+            return render_template('signup.html')
 
-        entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass = upass_db , ucnfpass = ucnfpass_db , ucity = ucity_db)
+        hashed_password = hashlib.sha256(upass_db.encode()).hexdigest()
 
+        entry = Users( uname = uname_db , unumber = unumber_db , umail = umail_db , upass =hashed_password , ucnfpass = hashed_password , ucity = ucity_db)
+        
         
         user = Users.query.filter_by(uname=uname_db).first()
         if user:
@@ -254,6 +264,7 @@ def signup():
             print("Email exists")
             return render_template('signup.html')
 
+
         if not is_valid_mobile_number(unumber_db):
             flash('Invalid Mobile number')
             return render_template('signup.html')
@@ -264,7 +275,7 @@ def signup():
 
         # Validate password
         if not is_valid_password(upass_db):
-            flash('Password should contain atleast one uppercase/lowercase ,atleast one digit, minimum length of 6 characters.')
+            flash('Password should contain atleast one uppercase/lowercase ,atleast one digit, minimum length of 8 characters.')
             return render_template('signup.html')
  
         db.session.add(entry)
