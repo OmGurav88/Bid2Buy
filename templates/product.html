@@ -202,6 +202,7 @@ li a i {
       <li><a href="/productonbid/{{id}}"><i class="fa fa-tasks"></i> My On Bid</a></li>
       <li><a href="/myprofile/{{id}}"><i class="fa fa-tasks"></i> My Profile</a></li>
       <li><a href="/login"> <i class="fas fa-power-off"></i> Logout</a></li>
+      <li class="logged-in-user">User's Name</li>
     </ul>
   </nav>
   
@@ -237,6 +238,8 @@ li a i {
       <p>Base Price : <span id="product-price">₹{{ product.pprice }}</span></p><hr>
       <p>Current Highest Bid: <span id="product-price">₹{{ curr_bid }}</span></p><hr>
       
+
+
       <!-- <p><strong>Features:</strong></p> -->
       <h1> <span id="countdown"></span></h1><hr>
       <form action="/product/{{product.pid}}" method="post" >
@@ -260,9 +263,13 @@ li a i {
        function check(){
         var bid = document.getElementById("biddedPrice").value;
           var base_price = '{{ curr_bid }}';
-           if(bid < base_price){
+           if( bid < base_price  ){
              alert("Please Enter Price Greater than Current Bid Price");
            }
+           if (bid === "" ) {
+              alert("Please enter a bid price.");
+              return false;
+            }
            else{
               // confirm('Are you sure to Bid This Product?');
               var confirmed = confirm('Are you sure to Bid This Product?');
@@ -283,6 +290,7 @@ li a i {
 		setInterval(function() {
 			// Get the current time
 			var now = new Date();
+    
 
 			// Calculate the time remaining in seconds
 			var timeRemainingEnd = (saleEndTime.getTime() - now.getTime()) / 1000;
@@ -298,16 +306,21 @@ li a i {
 
 			// Update the countdown timer
       if(hoursRemainingE >=0 && minutesRemainingE >= 0 && secondsRemainingE >= 0 && hoursRemainingS<=0 && minutesRemainingS<=0 && secondsRemainingS<=0 ){
-			  document.getElementById('countdown').innerHTML = "Bid Ends in "+ hoursRemainingE + ' hrs, ' + minutesRemainingE + ' min, ' + secondsRemainingE + ' sec' + " Hurry UP!!";
+			  document.getElementById('countdown').innerHTML = "Bid Ends in "+ hoursRemainingE + ' hrs, ' + minutesRemainingE + ' min, ' + secondsRemainingE + ' sec' + "<br>Status : \n<span style='color: green;'>Active </span>";;
         
 		  }
       else if(hoursRemainingS>=0 && minutesRemainingS>=0 && secondsRemainingS>=0){
-        document.getElementById('countdown').innerHTML = "Bid Starts in " + hoursRemainingS + ' hrs, ' + minutesRemainingS + ' min, ' + secondsRemainingS + ' sec' + " Stay Active!!";
+        
+        document.getElementById('countdown').innerHTML = "Bid Starts in " + hoursRemainingS + ' hrs, ' + minutesRemainingS + ' min, ' + secondsRemainingS + ' sec' + "<br>Status : <span style='color: blue;'>Upcoming</span>";;
+        document.getElementById('biddedprice').style.display = "none";
+        document.getElementById('biddedPrice').style.display = "none";
+        document.getElementById('bid_button').style.display = "none";
       }
       else{
-        document.getElementById('countdown').innerHTML = "Sorry Bid Expired " ;
-        // document.getElementById('countdown').innerHTML = "  :Expired!";
-        document.getElementById('bid_button').disabled = true;
+        document.getElementById('countdown').innerHTML = "<br>Status :  <span style='color: red;'>Bid Expired</span>";
+        document.getElementById('biddedprice').style.display = "none";
+        document.getElementById('biddedPrice').style.display = "none";
+        document.getElementById('bid_button').style.display = "none";
       }
     }, 1000);
 

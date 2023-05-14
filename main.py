@@ -352,7 +352,7 @@ def show_product(pid):
             flash('You Have Highest Bid.')
             return render_template('product.html', product=product,id = user_id,curr_bid=latest_bid)
         if(user_id == product.uid):
-            flash('Sorry!! You cant Bid!! Its Your Product.')
+            flash('Sorry!! You can\'t Bid on Your Product.')
             return render_template('product.html', product=product,id = user_id,curr_bid=latest_bid)
 
         
@@ -607,7 +607,7 @@ def getimage():
 @app.route('/productpayment/<int:pid>', methods = [ 'GET' , 'POST'])
 def product_payment(pid): 
     product = db.session.execute(f"SELECT * FROM `products` WHERE pid=:pid;", {'pid': pid}).fetchone()   
-
+    flash('Congratulations! You Won this product', 'success')
     return render_template('productpayment.html',uid=pid,product=product)
     
     
